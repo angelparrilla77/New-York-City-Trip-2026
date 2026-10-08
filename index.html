@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
 
 <title>NYC Itinerary 2026</title>
 
@@ -12,6 +16,7 @@
 />
 
 <style>
+
 * {
   box-sizing: border-box;
 }
@@ -21,7 +26,13 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
   background: #f4f4f4;
 }
 
@@ -29,9 +40,9 @@ body {
   overflow: hidden;
 }
 
-/* =========================
+/* ================================
    HEADER
-========================= */
+================================ */
 
 #header {
   height: 72px;
@@ -55,34 +66,44 @@ body {
   margin-top: 3px;
 }
 
-/* =========================
+/* ================================
    DAY FILTERS
-========================= */
+================================ */
 
 #filters {
   height: 62px;
   background: white;
   border-bottom: 1px solid #ddd;
+
   display: flex;
   align-items: center;
+
   gap: 8px;
   padding: 8px 12px;
+
   overflow-x: auto;
   white-space: nowrap;
+
   position: relative;
   z-index: 1900;
 }
 
 .filter-button {
   flex: 0 0 auto;
+
   border: 1px solid #bbb;
-  background: #fff;
+  background: white;
   color: #222;
+
   border-radius: 20px;
+
   padding: 10px 16px;
+
   font-size: 13px;
   font-weight: 700;
+
   cursor: pointer;
+
   transition: 0.2s;
 }
 
@@ -96,22 +117,28 @@ body {
   border-color: #111;
 }
 
-/* =========================
-   MAIN LAYOUT
-========================= */
+/* ================================
+   MAIN
+================================ */
 
 #main {
   height: calc(100vh - 134px);
+
   display: flex;
+
   position: relative;
 }
 
 #sidebar {
   width: 390px;
   min-width: 390px;
-  background: #fff;
+
+  background: white;
+
   overflow-y: auto;
+
   border-right: 1px solid #ddd;
+
   z-index: 1000;
 }
 
@@ -120,9 +147,9 @@ body {
   height: 100%;
 }
 
-/* =========================
+/* ================================
    DAY SECTION
-========================= */
+================================ */
 
 .day-section {
   border-bottom: 1px solid #ddd;
@@ -131,28 +158,37 @@ body {
 .day-header {
   position: sticky;
   top: 0;
+
   z-index: 100;
+
   background: #111;
   color: white;
+
   padding: 12px 14px;
+
   font-weight: 700;
   font-size: 14px;
 }
 
 .day-header span {
   opacity: 0.7;
+
   font-weight: 500;
+
   margin-left: 6px;
 }
 
-/* =========================
-   EVENT CARD
-========================= */
+/* ================================
+   EVENT
+================================ */
 
 .event {
   padding: 12px 14px;
+
   border-bottom: 1px solid #eee;
+
   cursor: pointer;
+
   transition: background 0.15s;
 }
 
@@ -166,55 +202,77 @@ body {
 
 .event-time {
   font-size: 12px;
+
   font-weight: 700;
+
   color: #666;
+
   margin-bottom: 3px;
 }
 
 .event-name {
   font-size: 14px;
+
   font-weight: 700;
+
   color: #111;
+
   line-height: 1.3;
 }
 
 .event-address {
   font-size: 11px;
+
   color: #777;
+
   margin-top: 4px;
+
   line-height: 1.35;
 }
 
 .pending {
   color: #b26a00;
+
   font-weight: 700;
 }
 
 .no-location {
   color: #999;
+
   font-style: italic;
 }
 
-/* =========================
+/* ================================
    MAP BUTTONS
-========================= */
+================================ */
 
 .map-buttons {
   display: flex;
+
   gap: 6px;
+
   margin-top: 9px;
+
   flex-wrap: wrap;
 }
 
 .map-button {
   display: inline-block;
+
   text-decoration: none;
+
   border-radius: 7px;
+
   padding: 7px 9px;
+
   font-size: 11px;
+
   font-weight: 700;
+
   border: 1px solid #ccc;
+
   background: white;
+
   color: #111;
 }
 
@@ -230,53 +288,71 @@ body {
   border-color: #4285f4;
 }
 
-/* =========================
+/* ================================
    POPUP
-========================= */
+================================ */
 
 .popup-title {
   font-size: 15px;
+
   font-weight: 700;
+
   margin-bottom: 5px;
 }
 
 .popup-time {
   font-size: 12px;
+
   color: #666;
+
   margin-bottom: 5px;
 }
 
 .popup-address {
   font-size: 12px;
+
   color: #555;
+
   line-height: 1.35;
 }
 
 .popup-pending {
   color: #b26a00;
+
   font-weight: 700;
+
+  margin-top: 4px;
 }
 
-/* =========================
+/* ================================
    LOADING
-========================= */
+================================ */
 
 #loading {
   position: absolute;
+
   top: 12px;
   right: 12px;
+
   z-index: 1500;
+
   background: rgba(255,255,255,0.95);
+
   padding: 8px 12px;
+
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.15);
+
   font-size: 12px;
+
   display: none;
 }
 
-/* =========================
+/* ================================
    MOBILE
-========================= */
+================================ */
 
 @media (max-width: 800px) {
 
@@ -294,19 +370,24 @@ body {
 
   #main {
     height: calc(100vh - 122px);
+
     flex-direction: column;
   }
 
   #sidebar {
     width: 100%;
     min-width: 100%;
+
     height: 43%;
+
     border-right: none;
+
     border-bottom: 1px solid #ccc;
   }
 
   #map {
     height: 57%;
+
     min-height: 280px;
   }
 
@@ -322,44 +403,103 @@ body {
   .event-name {
     font-size: 13px;
   }
+
 }
 
-/* =========================
+/* ================================
    LEAFLET
-========================= */
+================================ */
 
 .leaflet-popup-content {
   margin: 12px;
+
   min-width: 210px;
 }
 
 .leaflet-control-attribution {
   font-size: 9px;
 }
+
 </style>
 </head>
 
 <body>
 
+<!-- ================================
+     HEADER
+================================ -->
+
 <div id="header">
+
   <div>
-    <div id="header-title">NYC Itinerary 2026</div>
-    <div id="header-subtitle">November 21–24, 2026</div>
+
+    <div id="header-title">
+      NYC Itinerary 2026
+    </div>
+
+    <div id="header-subtitle">
+      November 21–24, 2026
+    </div>
+
   </div>
+
 </div>
 
+
+<!-- ================================
+     FILTERS
+================================ -->
+
 <div id="filters">
-  <button class="filter-button active" data-day="all">TODOS</button>
-  <button class="filter-button" data-day="sat">SÁB 21</button>
-  <button class="filter-button" data-day="sun">DOM 22</button>
-  <button class="filter-button" data-day="mon">LUN 23</button>
-  <button class="filter-button" data-day="tue">MAR 24</button>
+
+  <button
+    class="filter-button active"
+    data-day="all"
+  >
+    TODOS
+  </button>
+
+  <button
+    class="filter-button"
+    data-day="sat"
+  >
+    SÁB 21
+  </button>
+
+  <button
+    class="filter-button"
+    data-day="sun"
+  >
+    DOM 22
+  </button>
+
+  <button
+    class="filter-button"
+    data-day="mon"
+  >
+    LUN 23
+  </button>
+
+  <button
+    class="filter-button"
+    data-day="tue"
+  >
+    MAR 24
+  </button>
+
 </div>
+
+
+<!-- ================================
+     MAIN
+================================ -->
 
 <div id="main">
 
   <aside id="sidebar">
+
     <div id="itinerary"></div>
+
   </aside>
 
   <div id="map"></div>
@@ -370,23 +510,26 @@ body {
 
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+></script>
+
 
 <script>
 
-/* =========================================================
-   ITINERARY DATA
-========================================================= */
+/* ============================================================
+   ITINERARY
+============================================================ */
 
 const itinerary = [
 
-/* =========================================================
+/* ============================================================
    SATURDAY — NOVEMBER 21
-========================================================= */
+============================================================ */
 
 {
   day: "sat",
-  dayTitle: "Sábado, 21 de noviembre",
   time: "6:00 a.m.",
   name: "B61604 (JetBlue)",
   address: "SJU ✈ JFK",
@@ -397,8 +540,11 @@ const itinerary = [
   day: "sat",
   time: "9:30 a.m.",
   name: "JFK to Riu",
-  address: "John F. Kennedy International Airport → Hotel Riu Plaza Manhattan Times Square",
-  noMap: true
+  address: "40.64601798388985, -73.77530133205288",
+  coordinates: [
+    40.64601798388985,
+    -73.77530133205288
+  ]
 },
 
 {
@@ -479,7 +625,10 @@ const itinerary = [
   time: "3:00 p.m.",
   name: "Bethesda Terrace",
   address: "40.77408276905158, -73.97095497437824",
-  coordinates: [40.77408276905158, -73.97095497437824]
+  coordinates: [
+    40.77408276905158,
+    -73.97095497437824
+  ]
 },
 
 {
@@ -487,7 +636,10 @@ const itinerary = [
   time: "3:10 p.m.",
   name: "Bethesda Fountain",
   address: "40.77445136833047, -73.9709043608828",
-  coordinates: [40.77445136833047, -73.9709043608828],
+  coordinates: [
+    40.77445136833047,
+    -73.9709043608828
+  ],
   pending: true
 },
 
@@ -541,13 +693,13 @@ const itinerary = [
   address: "214 W 43rd St, New York, NY 10036, United States"
 },
 
-/* =========================================================
+
+/* ============================================================
    SUNDAY — NOVEMBER 22
-========================================================= */
+============================================================ */
 
 {
   day: "sun",
-  dayTitle: "Domingo, 22 de noviembre",
   time: "7:30 a.m.",
   name: "Central Perk Coffee",
   address: "20 Times Square, New York, NY 10036, United States"
@@ -628,17 +780,15 @@ const itinerary = [
 {
   day: "sun",
   time: "2:00 p.m.",
-  name: "Statue Of Liberty",
-  address: "Whitehall Street–South Ferry Station → Saint George Station",
-  noMap: true
+  name: "Statue Of Liberty — Whitehall Street–South Ferry Station",
+  address: "4 South St, New York, NY 10004, United States"
 },
 
 {
   day: "sun",
   time: "3:00 p.m.",
   name: "Staten Island",
-  address: "Saint George Station → Whitehall Street–South Ferry Station",
-  noMap: true
+  address: "1 Bay St, Staten Island, NY 10301, United States"
 },
 
 {
@@ -734,13 +884,13 @@ const itinerary = [
   address: "145 Bowery, New York, NY 10002, United States"
 },
 
-/* =========================================================
+
+/* ============================================================
    MONDAY — NOVEMBER 23
-========================================================= */
+============================================================ */
 
 {
   day: "mon",
-  dayTitle: "Lunes, 23 de noviembre",
   time: "6:00 a.m.",
   name: "Brooklyn Bridge–City Hall / Chambers Street Station",
   address: "New York, NY, United States"
@@ -807,7 +957,7 @@ const itinerary = [
   day: "mon",
   time: "10:00 a.m.",
   name: "Vista Point Manhattan & Brooklyn Bridges",
-  address: "Brooklyn, New York, United States"
+  address: "55 Water St, Brooklyn, NY 11201, United States"
 },
 
 {
@@ -958,13 +1108,13 @@ const itinerary = [
   address: "145 Bowery, New York, NY 10002, United States"
 },
 
-/* =========================================================
+
+/* ============================================================
    TUESDAY — NOVEMBER 24
-========================================================= */
+============================================================ */
 
 {
   day: "tue",
-  dayTitle: "Martes, 24 de noviembre",
   time: "8:00 a.m.",
   name: "Pier 25 @ Hudson River",
   address: "225 West St, New York, NY 10013, United States"
@@ -994,39 +1144,53 @@ const itinerary = [
 
 ];
 
-/* =========================================================
-   MAP INITIALIZATION
-========================================================= */
+
+/* ============================================================
+   MAP
+============================================================ */
 
 const map = L.map("map", {
   zoomControl: true
-}).setView([40.7580, -73.9855], 13);
+}).setView(
+  [40.7580, -73.9855],
+  13
+);
 
 L.tileLayer(
   "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
     maxZoom: 19,
-    attribution: '&copy; OpenStreetMap contributors'
+    attribution:
+      '&copy; OpenStreetMap contributors'
   }
 ).addTo(map);
 
-/* =========================================================
-   VARIABLES
-========================================================= */
 
-const itineraryContainer = document.getElementById("itinerary");
-const loading = document.getElementById("loading");
+/* ============================================================
+   GLOBAL VARIABLES
+============================================================ */
+
+const itineraryContainer =
+  document.getElementById("itinerary");
+
+const loading =
+  document.getElementById("loading");
 
 let markers = [];
+
 let currentDay = "all";
 
-/* =========================================================
-   HELPERS
-========================================================= */
+
+/* ============================================================
+   HTML ESCAPE
+============================================================ */
 
 function escapeHtml(text) {
 
-  if (text === undefined || text === null) {
+  if (
+    text === undefined ||
+    text === null
+  ) {
     return "";
   }
 
@@ -1039,16 +1203,22 @@ function escapeHtml(text) {
 }
 
 
+/* ============================================================
+   COORDINATE DETECTION
+============================================================ */
+
 function isCoordinateString(address) {
 
-  return /^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/.test(address.trim());
+  return /^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/
+    .test(address.trim());
 
 }
 
 
 function getCoordinates(address) {
 
-  const parts = address.split(",");
+  const parts =
+    address.split(",");
 
   return [
     parseFloat(parts[0].trim()),
@@ -1058,29 +1228,49 @@ function getCoordinates(address) {
 }
 
 
+/* ============================================================
+   APPLE MAPS
+============================================================ */
+
 function appleMapsUrl(address) {
 
-  return "https://maps.apple.com/?daddr=" +
-    encodeURIComponent(address);
+  return (
+    "https://maps.apple.com/?daddr=" +
+    encodeURIComponent(address)
+  );
 
 }
 
+
+/* ============================================================
+   GOOGLE MAPS
+============================================================ */
 
 function googleMapsUrl(address) {
 
-  return "https://www.google.com/maps/dir/?api=1&destination=" +
-    encodeURIComponent(address);
+  return (
+    "https://www.google.com/maps/dir/?api=1&destination=" +
+    encodeURIComponent(address)
+  );
 
 }
 
 
+/* ============================================================
+   MAP BUTTONS
+============================================================ */
+
 function mapButtons(address) {
 
-  if (!address || address.trim() === "") {
+  if (
+    !address ||
+    address.trim() === ""
+  ) {
     return "";
   }
 
   return `
+
     <div class="map-buttons">
 
       <a
@@ -1104,129 +1294,182 @@ function mapButtons(address) {
       </a>
 
     </div>
+
   `;
 
 }
 
 
-/* =========================================================
-   RENDER SIDEBAR
-========================================================= */
+/* ============================================================
+   SIDEBAR
+============================================================ */
 
 function renderSidebar() {
 
   itineraryContainer.innerHTML = "";
 
   const days = [
+
     {
       id: "sat",
-      title: "Sábado, 21 de noviembre",
-      date: "2026"
+      title: "Sábado, 21 de noviembre"
     },
+
     {
       id: "sun",
-      title: "Domingo, 22 de noviembre",
-      date: "2026"
+      title: "Domingo, 22 de noviembre"
     },
+
     {
       id: "mon",
-      title: "Lunes, 23 de noviembre",
-      date: "2026"
+      title: "Lunes, 23 de noviembre"
     },
+
     {
       id: "tue",
-      title: "Martes, 24 de noviembre",
-      date: "2026"
+      title: "Martes, 24 de noviembre"
     }
+
   ];
+
 
   days.forEach(day => {
 
-    if (currentDay !== "all" && currentDay !== day.id) {
+    if (
+      currentDay !== "all" &&
+      currentDay !== day.id
+    ) {
       return;
     }
 
-    const events = itinerary.filter(
-      item => item.day === day.id
-    );
+
+    const events =
+      itinerary.filter(
+        item => item.day === day.id
+      );
+
 
     if (!events.length) {
       return;
     }
 
-    const section = document.createElement("div");
-    section.className = "day-section";
 
-    const header = document.createElement("div");
-    header.className = "day-header";
+    const section =
+      document.createElement("div");
+
+    section.className =
+      "day-section";
+
+
+    const header =
+      document.createElement("div");
+
+    header.className =
+      "day-header";
+
     header.innerHTML =
       escapeHtml(day.title) +
       "<span>2026</span>";
 
     section.appendChild(header);
 
-    events.forEach((item, index) => {
 
-      const event = document.createElement("div");
-      event.className = "event";
+    events.forEach(item => {
 
-      const globalIndex = itinerary.indexOf(item);
+      const event =
+        document.createElement("div");
 
-      event.dataset.index = globalIndex;
+      event.className =
+        "event";
 
-      const pendingHtml = item.pending
-        ? ' <span class="pending">(Pending)</span>'
-        : "";
+
+      const globalIndex =
+        itinerary.indexOf(item);
+
+      event.dataset.index =
+        globalIndex;
+
+
+      const pendingHtml =
+        item.pending
+          ? ' <span class="pending">(Pending)</span>'
+          : "";
+
 
       let addressHtml = "";
+
 
       if (item.noMap) {
 
         addressHtml = `
+
           <div class="event-address no-location">
+
             ${escapeHtml(item.address)}
+
           </div>
+
         `;
 
       } else {
 
         addressHtml = `
+
           <div class="event-address">
+
             ${escapeHtml(item.address)}
+
           </div>
 
           ${mapButtons(item.address)}
+
         `;
 
       }
 
+
       event.innerHTML = `
+
         <div class="event-time">
+
           ${escapeHtml(item.time)}
+
         </div>
 
         <div class="event-name">
+
           ${escapeHtml(item.name)}
+
           ${pendingHtml}
+
         </div>
 
         ${addressHtml}
+
       `;
 
-      event.addEventListener("click", function(e) {
 
-        if (
-          e.target.closest("a")
-        ) {
-          return;
-        }
+      event.addEventListener(
+        "click",
+        function(e) {
 
-        const markerRecord =
-          markers.find(
-            m => m.index === globalIndex
-          );
+          if (
+            e.target.closest("a")
+          ) {
+            return;
+          }
 
-        if (markerRecord) {
+
+          const markerRecord =
+            markers.find(
+              m => m.index === globalIndex
+            );
+
+
+          if (!markerRecord) {
+            return;
+          }
+
 
           map.setView(
             markerRecord.marker.getLatLng(),
@@ -1236,22 +1479,31 @@ function renderSidebar() {
             }
           );
 
+
           markerRecord.marker.openPopup();
+
 
           document
             .querySelectorAll(".event")
             .forEach(el =>
-              el.classList.remove("selected")
+              el.classList.remove(
+                "selected"
+              )
             );
 
-          event.classList.add("selected");
-        }
 
-      });
+          event.classList.add(
+            "selected"
+          );
+
+        }
+      );
+
 
       section.appendChild(event);
 
     });
+
 
     itineraryContainer.appendChild(section);
 
@@ -1260,50 +1512,76 @@ function renderSidebar() {
 }
 
 
-/* =========================================================
+/* ============================================================
    CREATE MARKER
-========================================================= */
+============================================================ */
 
-function createMarker(item, index, lat, lon) {
+function createMarker(
+  item,
+  index,
+  lat,
+  lon
+) {
 
-  const popupPending = item.pending
-    ? '<div class="popup-pending">Pending</div>'
-    : "";
+  const popupPending =
+    item.pending
+      ? `
+        <div class="popup-pending">
+          Pending
+        </div>
+      `
+      : "";
+
 
   const popup = `
+
     <div class="popup-title">
+
       ${escapeHtml(item.name)}
+
     </div>
 
     <div class="popup-time">
+
       ${escapeHtml(item.time)}
+
     </div>
 
     <div class="popup-address">
+
       ${escapeHtml(item.address)}
+
     </div>
 
     ${popupPending}
 
     ${mapButtons(item.address)}
+
   `;
 
-  const marker = L.marker([lat, lon])
-    .addTo(map)
-    .bindPopup(popup);
+
+  const marker =
+    L.marker([lat, lon])
+      .addTo(map)
+      .bindPopup(popup);
+
 
   markers.push({
+
     index: index,
+
     day: item.day,
+
     marker: marker
+
   });
 
 }
 
 
-/* =========================================================
+/* ============================================================
    GEOCODING
-========================================================= */
+============================================================ */
 
 async function geocodeAddress(address) {
 
@@ -1311,161 +1589,250 @@ async function geocodeAddress(address) {
     return null;
   }
 
-  if (isCoordinateString(address)) {
+
+  if (
+    isCoordinateString(address)
+  ) {
+
     return getCoordinates(address);
+
   }
+
 
   try {
 
     const url =
-      "https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=" +
+      "https://nominatim.openstreetmap.org/search" +
+      "?format=jsonv2" +
+      "&limit=1" +
+      "&q=" +
       encodeURIComponent(address);
 
-    const response = await fetch(url, {
-      headers: {
-        "Accept": "application/json"
-      }
-    });
+
+    const response =
+      await fetch(
+        url,
+        {
+          headers: {
+            "Accept":
+              "application/json"
+          }
+        }
+      );
+
 
     if (!response.ok) {
       return null;
     }
 
-    const data = await response.json();
 
-    if (!data || !data.length) {
+    const data =
+      await response.json();
+
+
+    if (
+      !data ||
+      !data.length
+    ) {
       return null;
     }
 
+
     return [
-      parseFloat(data[0].lat),
-      parseFloat(data[0].lon)
+
+      parseFloat(
+        data[0].lat
+      ),
+
+      parseFloat(
+        data[0].lon
+      )
+
     ];
 
   } catch (error) {
 
     console.error(
-      "Error geocoding:",
+      "Geocoding error:",
       address,
       error
     );
 
     return null;
+
   }
 
 }
 
 
-/* =========================================================
-   LOAD MARKERS
-========================================================= */
+/* ============================================================
+   LOAD ALL MARKERS
+============================================================ */
 
 async function loadMarkers() {
 
-  loading.style.display = "block";
+  loading.style.display =
+    "block";
+
+
+  const geocodable =
+    itinerary.filter(
+      item => !item.noMap
+    );
+
 
   let completed = 0;
 
-  for (let i = 0; i < itinerary.length; i++) {
 
-    const item = itinerary[i];
+  for (
+    let i = 0;
+    i < itinerary.length;
+    i++
+  ) {
+
+    const item =
+      itinerary[i];
+
 
     if (item.noMap) {
       continue;
     }
 
+
     let coordinates = null;
+
+
+    /*
+      Use exact coordinates whenever
+      they were explicitly provided.
+    */
 
     if (item.coordinates) {
 
-      coordinates = item.coordinates;
+      coordinates =
+        item.coordinates;
 
     } else {
 
       coordinates =
-        await geocodeAddress(item.address);
+        await geocodeAddress(
+          item.address
+        );
 
     }
+
 
     if (coordinates) {
 
       createMarker(
+
         item,
+
         i,
+
         coordinates[0],
+
         coordinates[1]
+
       );
 
     }
 
+
     completed++;
+
 
     loading.innerHTML =
       "Cargando ubicaciones " +
       completed +
       " / " +
-      itinerary.filter(
-        x => !x.noMap
-      ).length;
+      geocodable.length;
+
 
     /*
-      Nominatim requests are intentionally separated
-      to avoid sending requests too quickly.
+      Delay between Nominatim
+      requests.
     */
 
-    await new Promise(
-      resolve => setTimeout(resolve, 1100)
-    );
+    if (!item.coordinates) {
+
+      await new Promise(
+        resolve =>
+          setTimeout(
+            resolve,
+            1100
+          )
+      );
+
+    }
 
   }
 
-  loading.style.display = "none";
+
+  loading.style.display =
+    "none";
+
 
   applyFilter();
 
 }
 
 
-/* =========================================================
-   APPLY DAY FILTER
-========================================================= */
+/* ============================================================
+   APPLY FILTER
+============================================================ */
 
 function applyFilter() {
 
   const visibleMarkers = [];
 
-  markers.forEach(record => {
 
-    const shouldShow =
-      currentDay === "all" ||
-      record.day === currentDay;
+  markers.forEach(
+    record => {
 
-    if (shouldShow) {
+      const shouldShow =
+        currentDay === "all" ||
+        record.day === currentDay;
 
-      record.marker.addTo(map);
 
-      visibleMarkers.push(
-        record.marker.getLatLng()
-      );
+      if (shouldShow) {
 
-    } else {
+        record.marker.addTo(map);
 
-      map.removeLayer(record.marker);
+
+        visibleMarkers.push(
+          record.marker.getLatLng()
+        );
+
+      } else {
+
+        map.removeLayer(
+          record.marker
+        );
+
+      }
 
     }
+  );
 
-  });
 
   renderSidebar();
 
+
   /*
-    Automatically frame the selected day's locations.
+    Automatically fit the
+    selected day's locations.
   */
 
-  if (visibleMarkers.length > 0) {
+  if (
+    visibleMarkers.length > 0
+  ) {
 
     const bounds =
-      L.latLngBounds(visibleMarkers);
+      L.latLngBounds(
+        visibleMarkers
+      );
+
 
     map.fitBounds(
       bounds,
@@ -1480,12 +1847,14 @@ function applyFilter() {
 }
 
 
-/* =========================================================
+/* ============================================================
    FILTER BUTTONS
-========================================================= */
+============================================================ */
 
 document
-  .querySelectorAll(".filter-button")
+  .querySelectorAll(
+    ".filter-button"
+  )
   .forEach(button => {
 
     button.addEventListener(
@@ -1493,15 +1862,24 @@ document
       function() {
 
         document
-          .querySelectorAll(".filter-button")
+          .querySelectorAll(
+            ".filter-button"
+          )
           .forEach(btn =>
-            btn.classList.remove("active")
+            btn.classList.remove(
+              "active"
+            )
           );
 
-        this.classList.add("active");
+
+        this.classList.add(
+          "active"
+        );
+
 
         currentDay =
           this.dataset.day;
+
 
         applyFilter();
 
@@ -1511,9 +1889,9 @@ document
   });
 
 
-/* =========================================================
-   INITIAL RENDER
-========================================================= */
+/* ============================================================
+   INITIALIZE
+============================================================ */
 
 renderSidebar();
 
