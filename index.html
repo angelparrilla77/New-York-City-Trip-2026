@@ -140,6 +140,39 @@
       vertical-align: middle;
     }
 
+    /* MAP BUTTONS */
+
+    .map-buttons {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .map-button {
+      display: inline-block;
+      padding: 6px 9px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      color: white !important;
+      cursor: pointer;
+      border: none;
+    }
+
+    .apple-button {
+      background: #111827;
+    }
+
+    .google-button {
+      background: #4285f4;
+    }
+
+    .map-button:hover {
+      opacity: 0.88;
+    }
+
     .leaflet-popup-content {
       font-size: 13px;
       line-height: 1.45;
@@ -182,6 +215,11 @@
 
       header h1 {
         font-size: 18px;
+      }
+
+      .map-button {
+        padding: 7px 10px;
+        font-size: 11px;
       }
     }
   </style>
@@ -282,8 +320,10 @@ const itinerary = [
 
       ["7:30 p.m.", "Lyric Theatre",
        "214 W 43rd St, New York, NY 10036", false]
+
     ]
   },
+
 
   {
     date: "Sunday, Nov. 22, 2026",
@@ -293,10 +333,10 @@ const itinerary = [
        "20 Times Square, New York, NY 10036", false],
 
       ["8:00 a.m.", "The Food Emporium",
-       "810 Eighth Ave, New York, NY 10019", true],
+       "810 8th Ave, New York, NY 10019", true],
 
       ["9:00 a.m.", "Grand Central Terminal",
-       "New York, NY", false],
+       "89 E 42nd St, New York, NY 10017", false],
 
       ["10:00 a.m.", "NBA Store",
        "545 5th Ave, New York, NY 10017", false],
@@ -311,7 +351,7 @@ const itinerary = [
        "20 W 34th St, New York, NY 10118", false],
 
       ["11:00 a.m.", "Stavros Niarchos Foundation Library",
-       "455 Fifth Ave, New York, NY 10016", false],
+       "455 5th Ave, New York, NY 10016", false],
 
       ["11:30 a.m.", "Koreatown",
        "5 W 32nd St, New York, NY", false],
@@ -366,8 +406,10 @@ const itinerary = [
 
       ["8:00 p.m.", "Moxy NYC Lower East Side",
        "145 Bowery, New York, NY", false]
+
     ]
   },
+
 
   {
     date: "Monday, Nov. 23, 2026",
@@ -431,7 +473,7 @@ const itinerary = [
        "935 Broadway, New York, NY 10010", false],
 
       ["3:00 p.m.", "Flatiron Building",
-       "175 Fifth Ave, New York, NY 10010", false],
+       "175 5th Ave, New York, NY 10010", false],
 
       ["3:30 p.m.", "Nintendo New York",
        "10 Rockefeller Plaza, New York, NY 10020", false],
@@ -452,21 +494,23 @@ const itinerary = [
        "30 Rockefeller Plaza, New York, NY 10112", false],
 
       ["5:00 p.m.", "Radio City Music Hall",
-       "1260 Sixth Ave, New York, NY 10020", false],
+       "1260 6th Ave, New York, NY 10020", false],
 
       ["5:20 p.m.", "The Lego Store",
-       "636 Fifth Ave, New York, NY 10020", false],
+       "636 5th Ave, New York, NY 10020", false],
 
       ["5:40 p.m.", "Ralph's Coffee",
-       "630 Fifth Ave, New York, NY 10111", false],
+       "630 5th Ave, New York, NY 10111", false],
 
       ["6:30 p.m.", "St. Patrick's Cathedral",
        "5th Avenue and 50th/51st Streets, New York, NY 10022", false],
 
       ["7:00 p.m.", "Moxy NYC Lower East Side",
        "145 Bowery, New York, NY", false]
+
     ]
   },
+
 
   {
     date: "Tuesday, Nov. 24, 2026",
@@ -483,6 +527,7 @@ const itinerary = [
 
       ["Time not supplied", "B61903 (JetBlue)",
        "JFK ✈ SJU", false]
+
     ]
   }
 
@@ -547,6 +592,63 @@ function escapeHtml(value) {
 
 
 // ------------------------------------------------------
+// MAP LINKS
+// ------------------------------------------------------
+
+function appleMapsUrl(address) {
+
+  return (
+    "https://maps.apple.com/?daddr=" +
+    encodeURIComponent(address)
+  );
+
+}
+
+
+function googleMapsUrl(address) {
+
+  return (
+    "https://www.google.com/maps/dir/?api=1&destination=" +
+    encodeURIComponent(address)
+  );
+
+}
+
+
+function mapButtons(address) {
+
+  return `
+
+    <div class="map-buttons">
+
+      <a
+        class="map-button apple-button"
+        href="${appleMapsUrl(address)}"
+        target="_blank"
+        rel="noopener noreferrer"
+        onclick="event.stopPropagation();"
+      >
+        🍎 Apple Maps
+      </a>
+
+      <a
+        class="map-button google-button"
+        href="${googleMapsUrl(address)}"
+        target="_blank"
+        rel="noopener noreferrer"
+        onclick="event.stopPropagation();"
+      >
+        🗺️ Google Maps
+      </a>
+
+    </div>
+
+  `;
+
+}
+
+
+// ------------------------------------------------------
 // GEOCODING
 // ------------------------------------------------------
 
@@ -605,6 +707,7 @@ function wait(ms) {
   return new Promise(
     resolve => setTimeout(resolve, ms)
   );
+
 }
 
 
@@ -655,6 +758,12 @@ async function buildItinerary() {
         "event";
 
 
+      const cannotGeocode =
+        address.includes("→") ||
+        address.includes("✈") ||
+        address === "No address supplied";
+
+
       eventElement.innerHTML = `
 
         <div class="time">
@@ -677,6 +786,12 @@ async function buildItinerary() {
           ${escapeHtml(address)}
         </div>
 
+        ${
+          !cannotGeocode
+            ? mapButtons(address)
+            : ""
+        }
+
       `;
 
 
@@ -689,12 +804,6 @@ async function buildItinerary() {
        * Some itinerary entries are routes,
        * flights, or have no fixed address.
        */
-
-      const cannotGeocode =
-        address.includes("→") ||
-        address.includes("✈") ||
-        address === "No address supplied";
-
 
       if (!cannotGeocode) {
 
@@ -739,6 +848,8 @@ async function buildItinerary() {
               ${escapeHtml(address)}
             </div>
 
+            ${mapButtons(address)}
+
           `;
 
 
@@ -762,7 +873,21 @@ async function buildItinerary() {
 
           eventElement.addEventListener(
             "click",
-            () => {
+            (event) => {
+
+              /*
+               * Don't activate the map marker
+               * when clicking Apple Maps or Google Maps.
+               */
+
+              if (
+                event.target.closest(
+                  ".map-button"
+                )
+              ) {
+                return;
+              }
+
 
               document
                 .querySelectorAll(".event")
