@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>NYC Itinerary — Nov 21–24, 2026</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+      background: #f5f5f5;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 14px 18px;
+      z-index: 1000;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    #app {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+
+    #sidebar {
+      width: 390px;
+      max-width: 42vw;
+      background: white;
+      overflow-y: auto;
+      border-right: 1px solid #d1d5db;
+    }
+
+    #map {
+      flex: 1;
+      min-width: 0;
+    }
+
+    #status {
+      padding: 10px 14px;
+      background: #f3f4f6;
+      color: #4b5563;
+      font-size: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .day-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: #e5e7eb;
+      padding: 11px 13px;
+      font-size: 14px;
+      font-weight: 700;
+      border-bottom: 1px solid #d1d5db;
+    }
+
+    .event {
+      padding: 10px 13px;
+      border-bottom: 1px solid #eeeeee;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .event:hover {
+      background: #f9fafb;
+    }
+
+    .event.active {
+      background: #eef2ff;
+    }
+
+    .time {
+      font-size: 12px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .name {
+      margin-top: 3px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .address {
+      margin-top: 3px;
+      font-size: 11px;
+      color: #6b7280;
+      line-height: 1.35;
+    }
+
+    .pending {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border: 1px solid #9ca3af;
+      border-radius: 10px;
+      font-size: 9px;
+      color: #4b5563;
+      vertical-align: middle;
+    }
+
+    .leaflet-popup-content {
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .popup-title {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .popup-time {
+      font-weight: 600;
+      margin-top: 3px;
+    }
+
+    .popup-address {
+      color: #555;
+      margin-top: 3px;
+    }
+
+    @media (max-width: 750px) {
+
+      #app {
+        flex-direction: column;
+      }
+
+      #sidebar {
+        width: 100%;
+        max-width: none;
+        height: 43%;
+        border-right: none;
+        border-bottom: 1px solid #ccc;
+        order: 1;
+      }
+
+      #map {
+        height: 57%;
+        order: 2;
+      }
+
+      header h1 {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>NYC Itinerary — November 21–24, 2026</h1>
+  <p>Interactive itinerary • Manhattan • Brooklyn • Staten Island • JFK</p>
+</header>
+
+<div id="app">
+
+  <aside id="sidebar">
+
+    <div id="status">
+      Preparando mapa…
+    </div>
+
+    <div id="events"></div>
+
+  </aside>
+
+  <main id="map"></main>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+const itinerary = [
+
+  {
+    date: "Saturday, Nov. 21, 2026",
+    events: [
+
+      ["6:00 a.m.", "B61604 (JetBlue) — SJU ✈ JFK",
+       "SJU → JFK", false],
+
+      ["9:30 a.m.", "JFK to Riu",
+       "John F. Kennedy International Airport → Hotel Riu Plaza Manhattan Times Square", false],
+
+      ["10:50 a.m.", "Hotel Riu Plaza Manhattan Times Square — Check-in",
+       "145 W 47th St, New York, NY 10036", false],
+
+      ["11:50 a.m.", "M&M'S",
+       "1600 Broadway, New York, NY 10019", false],
+
+      ["12:20 p.m.", "P.S. Kitchen",
+       "246 W 48th St, New York, NY 10036", true],
+
+      ["1:20 p.m.", "Carnegie Hall",
+       "57th Street and Seventh Avenue, New York, NY 10019", true],
+
+      ["1:45 p.m.", "Whole Foods Market",
+       "10 Columbus Cir, New York, NY 10019", false],
+
+      ["2:00 p.m.", "Columbus Circle",
+       "W 59th St, New York, NY 10019", true],
+
+      ["2:10 p.m.", "The Plaza New York",
+       "768 5th Ave, New York, NY 10019", false],
+
+      ["2:20 p.m.", "Central Park",
+       "7th Ave, New York, NY 10028", false],
+
+      ["2:30 p.m.", "Gapstow Bridge",
+       "East Dr, New York, NY 10028", false],
+
+      ["2:45 p.m.", "Central Park Carousel",
+       "65th St Transverse, New York, NY 10028", false],
+
+      ["3:00 p.m.", "Bethesda Terrace",
+       "72nd Street, New York, NY 10021", false],
+
+      ["3:10 p.m.", "Bethesda Fountain",
+       "72nd St, New York, NY 10028", true],
+
+      ["3:30 p.m.", "Bow Bridge",
+       "50 W 77th St, New York, NY 10024", false],
+
+      ["3:50 p.m.", "Strawberry Fields",
+       "W 74th St & 71st Ave, New York, NY 10019", false],
+
+      ["3:55 p.m.", "Tavern on the Green",
+       "67th Street & Central Park West, New York, NY 10023", false],
+
+      ["4:00 p.m.", "Transfer — Tavern on the Green → Summit One Vanderbilt",
+       "Tavern on the Green → Summit One Vanderbilt", false],
+
+      ["4:30 p.m.", "Summit One Vanderbilt",
+       "45 E 42nd St, New York, NY 10017", false],
+
+      ["7:00 p.m.", "House of Spells",
+       "234 W 42nd St, New York, NY 10036", false],
+
+      ["7:30 p.m.", "Lyric Theatre",
+       "214 W 43rd St, New York, NY 10036", false]
+    ]
+  },
+
+  {
+    date: "Sunday, Nov. 22, 2026",
+    events: [
+
+      ["7:30 a.m.", "Central Perk Coffee",
+       "20 Times Square, New York, NY 10036", false],
+
+      ["8:00 a.m.", "The Food Emporium",
+       "810 Eighth Ave, New York, NY 10019", true],
+
+      ["9:00 a.m.", "Grand Central Terminal",
+       "New York, NY", false],
+
+      ["10:00 a.m.", "NBA Store",
+       "545 5th Ave, New York, NY 10017", false],
+
+      ["10:30 a.m.", "Bryant Park",
+       "40th and 42nd Streets & Fifth and Sixth Avenues, New York, NY 10018", false],
+
+      ["10:45 a.m.", "Le Botaniste",
+       "11 W 42nd St, New York, NY 10036", true],
+
+      ["11:00 a.m.", "Empire State Building",
+       "20 W 34th St, New York, NY 10118", false],
+
+      ["11:00 a.m.", "Stavros Niarchos Foundation Library",
+       "455 Fifth Ave, New York, NY 10016", false],
+
+      ["11:30 a.m.", "Koreatown",
+       "5 W 32nd St, New York, NY", false],
+
+      ["12:00 p.m.", "Hotel Riu Plaza Manhattan Times Square — Check-out",
+       "145 W 47th St, New York, NY 10036", false],
+
+      ["12:45 p.m.", "Moxy NYC Lower East Side — Check-in",
+       "145 Bowery, New York, NY 10002", false],
+
+      ["2:00 p.m.", "Statue Of Liberty",
+       "Whitehall Street–South Ferry Station → Saint George Station", false],
+
+      ["3:00 p.m.", "Staten Island",
+       "Saint George Station → Whitehall Street–South Ferry Station", false],
+
+      ["3:30 p.m.", "The Battery",
+       "State St & Battery Pl, New York, NY 10004", false],
+
+      ["4:00 p.m.", "Ol' Days",
+       "73 Warren St, New York, NY 10007", true],
+
+      ["5:00 p.m.", "Charging Bull",
+       "26 Broadway, New York, NY 10004", false],
+
+      ["5:20 p.m.", "The Cocoa Exchange",
+       "1 Wall St Court, New York, NY 10005", true],
+
+      ["5:40 p.m.", "9/11 Memorial & Museum",
+       "180 Greenwich St, New York, NY 10007", false],
+
+      ["6:00 p.m.", "World Trade Center Oculus",
+       "50 Church St, New York, NY 10007", false],
+
+      ["6:15 p.m.", "One World Trade Center",
+       "285 Fulton St, New York, NY 10007", false],
+
+      ["6:30 p.m.", "North Cove Marina",
+       "250 Vesey St, New York, NY 10281", false],
+
+      ["6:40 p.m.", "The Bean",
+       "56 Leonard St, New York, NY 10013", false],
+
+      ["6:45 p.m.", "The Jenga Building",
+       "56 Leonard St, New York, NY 10013", false],
+
+      ["7:00 p.m.", "Ghostbusters Headquarters",
+       "14 N Moore St, TriBeCa, New York, NY 10013", false],
+
+      ["7:15 p.m.", "Soho Diner",
+       "320 W Broadway, New York, NY 10013", false],
+
+      ["8:00 p.m.", "Moxy NYC Lower East Side",
+       "145 Bowery, New York, NY", false]
+    ]
+  },
+
+  {
+    date: "Monday, Nov. 23, 2026",
+    events: [
+
+      ["6:00 a.m.", "Brooklyn Bridge–City Hall/Chambers Street Station",
+       "New York, NY", false],
+
+      ["6:15 a.m.", "Brooklyn Bridge Walk",
+       "Brooklyn Bridge → Brooklyn Bridge Park", false],
+
+      ["7:00 a.m.", "Brooklyn Heights Promenade",
+       "2 Pierrepont Pl, Brooklyn, NY 11201", false],
+
+      ["7:30 a.m.", "Squibb Park",
+       "68 Columbia Hts, Brooklyn, NY 11201", false],
+
+      ["8:00 a.m.", "Brooklyn Bridge Park",
+       "334 Furman St, Brooklyn, NY 11201", false],
+
+      ["8:15 a.m.", "Pier 1",
+       "60 Furman St, Brooklyn, NY 11201", false],
+
+      ["8:30 a.m.", "Clinton St. Baking Co. & Restaurant",
+       "55 Water St, Brooklyn, NY 11201", false],
+
+      ["9:00 a.m.", "Dumbo Manhattan Bridge View",
+       "39-21 Washington St, Brooklyn, NY 11201", false],
+
+      ["9:30 a.m.", "Manhattan Bridge Lookout",
+       "P246+2Q Brooklyn, New York, USA", false],
+
+      ["10:00 a.m.", "Vista Point Manhattan & Brooklyn Bridges",
+       "No address supplied", false],
+
+      ["10:30 a.m.", "Jane's Carousel",
+       "Dock St & Water St, Brooklyn, NY 11201", false],
+
+      ["11:00 a.m.", "Powerhouse Arena",
+       "28 Adams St, Brooklyn, NY 11201", false],
+
+      ["11:30 a.m.", "Moxy NYC Lower East Side",
+       "145 Bowery, New York, NY", false],
+
+      ["1:00 p.m.", "Joe's Pizza",
+       "7 Carmine St, New York, NY 10014", false],
+
+      ["1:15 p.m.", "Two Boots",
+       "101 7th Ave S, New York, NY 10014", false],
+
+      ["1:30 p.m.", "Gay Street",
+       "Gay Street, NY", false],
+
+      ["1:45 p.m.", "Perry St",
+       "58 Perry St, New York, NY 10014", false],
+
+      ["2:00 p.m.", "Urban Vegan Kitchen",
+       "265 W 23rd St, New York, NY 10011", true],
+
+      ["2:30 p.m.", "Harry Potter Shop",
+       "935 Broadway, New York, NY 10010", false],
+
+      ["3:00 p.m.", "Flatiron Building",
+       "175 Fifth Ave, New York, NY 10010", false],
+
+      ["3:30 p.m.", "Nintendo New York",
+       "10 Rockefeller Plaza, New York, NY 10020", false],
+
+      ["3:45 p.m.", "NBC Studios",
+       "30 Rockefeller Plaza, New York, NY 10112", false],
+
+      ["3:50 p.m.", "FAO Schwarz",
+       "30 Rockefeller Plaza, New York, NY 10111", false],
+
+      ["4:00 p.m.", "Rockefeller Center",
+       "45 Rockefeller Plz, New York, NY 10111", false],
+
+      ["4:15 p.m.", "Magnolia Bakery",
+       "1240 Avenue of the Americas, New York, NY 10020", false],
+
+      ["4:30 p.m.", "Top of the Rock",
+       "30 Rockefeller Plaza, New York, NY 10112", false],
+
+      ["5:00 p.m.", "Radio City Music Hall",
+       "1260 Sixth Ave, New York, NY 10020", false],
+
+      ["5:20 p.m.", "The Lego Store",
+       "636 Fifth Ave, New York, NY 10020", false],
+
+      ["5:40 p.m.", "Ralph's Coffee",
+       "630 Fifth Ave, New York, NY 10111", false],
+
+      ["6:30 p.m.", "St. Patrick's Cathedral",
+       "5th Avenue and 50th/51st Streets, New York, NY 10022", false],
+
+      ["7:00 p.m.", "Moxy NYC Lower East Side",
+       "145 Bowery, New York, NY", false]
+    ]
+  },
+
+  {
+    date: "Tuesday, Nov. 24, 2026",
+    events: [
+
+      ["8:00 a.m.", "Pier 25 @ Hudson River",
+       "225 West St, New York, NY 10013", false],
+
+      ["8:45 a.m.", "Pier 26",
+       "215 West St, New York, NY 10013", false],
+
+      ["12:00 p.m.", "Moxy NYC Lower East Side — Check-out",
+       "145 Bowery, New York, NY 10002", false],
+
+      ["Time not supplied", "B61903 (JetBlue)",
+       "JFK ✈ SJU", false]
+    ]
+  }
+
+];
+
+
+// ------------------------------------------------------
+// MAP
+// ------------------------------------------------------
+
+const map = L.map("map").setView(
+  [40.730610, -73.935242],
+  12
+);
+
+L.tileLayer(
+  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    maxZoom: 19,
+    attribution: "© OpenStreetMap contributors"
+  }
+).addTo(map);
+
+
+// ------------------------------------------------------
+// HELPERS
+// ------------------------------------------------------
+
+const eventsContainer =
+  document.getElementById("events");
+
+const status =
+  document.getElementById("status");
+
+const allMarkers = [];
+
+const bounds = [];
+
+let totalEvents = 0;
+let mappedEvents = 0;
+let processedEvents = 0;
+
+
+for (const day of itinerary) {
+  totalEvents += day.events.length;
+}
+
+
+// ------------------------------------------------------
+// ESCAPE HTML
+// ------------------------------------------------------
+
+function escapeHtml(value) {
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+// ------------------------------------------------------
+// GEOCODING
+// ------------------------------------------------------
+
+async function geocode(address) {
+
+  try {
+
+    const url =
+      "https://nominatim.openstreetmap.org/search" +
+      "?format=jsonv2" +
+      "&limit=1" +
+      "&q=" +
+      encodeURIComponent(address);
+
+    const response =
+      await fetch(url, {
+        headers: {
+          "Accept-Language": "en"
+        }
+      });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const results =
+      await response.json();
+
+    if (!results.length) {
+      return null;
+    }
+
+    return [
+      parseFloat(results[0].lat),
+      parseFloat(results[0].lon)
+    ];
+
+  } catch (error) {
+
+    console.error(
+      "Geocoding error:",
+      error
+    );
+
+    return null;
+  }
+}
+
+
+// ------------------------------------------------------
+// WAIT BETWEEN GEOCODING REQUESTS
+// ------------------------------------------------------
+
+function wait(ms) {
+
+  return new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
+}
+
+
+// ------------------------------------------------------
+// BUILD SIDEBAR
+// ------------------------------------------------------
+
+async function buildItinerary() {
+
+  for (const day of itinerary) {
+
+    const daySection =
+      document.createElement("section");
+
+    const dayHeader =
+      document.createElement("div");
+
+    dayHeader.className =
+      "day-header";
+
+    dayHeader.textContent =
+      day.date;
+
+    daySection.appendChild(
+      dayHeader
+    );
+
+
+    for (const event of day.events) {
+
+      const time =
+        event[0];
+
+      const name =
+        event[1];
+
+      const address =
+        event[2];
+
+      const pending =
+        event[3];
+
+
+      const eventElement =
+        document.createElement("div");
+
+      eventElement.className =
+        "event";
+
+
+      eventElement.innerHTML = `
+
+        <div class="time">
+          ${escapeHtml(time)}
+        </div>
+
+        <div class="name">
+
+          ${escapeHtml(name)}
+
+          ${
+            pending
+              ? '<span class="pending">Pending</span>'
+              : ""
+          }
+
+        </div>
+
+        <div class="address">
+          ${escapeHtml(address)}
+        </div>
+
+      `;
+
+
+      daySection.appendChild(
+        eventElement
+      );
+
+
+      /*
+       * Some itinerary entries are routes,
+       * flights, or have no fixed address.
+       */
+
+      const cannotGeocode =
+        address.includes("→") ||
+        address.includes("✈") ||
+        address === "No address supplied";
+
+
+      if (!cannotGeocode) {
+
+        await wait(1000);
+
+
+        const searchAddress =
+          address +
+          (
+            address.includes("New York") ||
+            address.includes("Brooklyn")
+              ? ""
+              : ", New York, USA"
+          );
+
+
+        const coordinates =
+          await geocode(
+            searchAddress
+          );
+
+
+        if (coordinates) {
+
+          const marker =
+            L.marker(
+              coordinates
+            ).addTo(map);
+
+
+          const popup = `
+
+            <div class="popup-title">
+              ${escapeHtml(name)}
+            </div>
+
+            <div class="popup-time">
+              ${escapeHtml(time)}
+            </div>
+
+            <div class="popup-address">
+              ${escapeHtml(address)}
+            </div>
+
+          `;
+
+
+          marker.bindPopup(
+            popup
+          );
+
+
+          allMarkers.push(
+            marker
+          );
+
+
+          bounds.push(
+            coordinates
+          );
+
+
+          mappedEvents++;
+
+
+          eventElement.addEventListener(
+            "click",
+            () => {
+
+              document
+                .querySelectorAll(".event")
+                .forEach(
+                  el =>
+                    el.classList.remove(
+                      "active"
+                    )
+                );
+
+
+              eventElement.classList.add(
+                "active"
+              );
+
+
+              map.setView(
+                coordinates,
+                16,
+                {
+                  animate: true
+                }
+              );
+
+
+              marker.openPopup();
+
+            }
+          );
+
+        }
+
+      }
+
+
+      processedEvents++;
+
+
+      status.textContent =
+        `Mapa: ${mappedEvents} de ${totalEvents} puntos ubicados…`;
+
+    }
+
+
+    eventsContainer.appendChild(
+      daySection
+    );
+
+  }
+
+
+  if (bounds.length) {
+
+    map.fitBounds(
+      bounds,
+      {
+        padding: [30, 30]
+      }
+    );
+
+  }
+
+
+  status.textContent =
+    `${mappedEvents} de ${totalEvents} puntos ubicados automáticamente.`;
+
+}
+
+
+buildItinerary();
+
+</script>
+
+</body>
+</html>
