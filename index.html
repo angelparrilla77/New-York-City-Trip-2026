@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 
 <meta
   name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
 >
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
 
 <title>NYC Itinerary 2026</title>
 
@@ -25,24 +29,23 @@ html,
 body {
   margin: 0;
   padding: 0;
+  width: 100%;
   height: 100%;
+  overflow: hidden;
   font-family:
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
     Roboto,
+    Helvetica,
     Arial,
     sans-serif;
   background: #f4f4f4;
 }
 
-body {
-  overflow: hidden;
-}
-
-/* ================================
+/* =========================
    HEADER
-================================ */
+========================= */
 
 #header {
   height: 72px;
@@ -50,65 +53,57 @@ body {
   color: white;
   display: flex;
   align-items: center;
-  padding: 10px 16px;
-  position: relative;
-  z-index: 2000;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid #333;
 }
 
-#header-title {
-  font-size: 20px;
+.header-title {
+  font-size: 22px;
   font-weight: 700;
+  letter-spacing: .3px;
 }
 
-#header-subtitle {
+.header-subtitle {
   font-size: 12px;
-  opacity: 0.75;
+  color: #aaa;
   margin-top: 3px;
 }
 
-/* ================================
-   DAY FILTERS
-================================ */
+/* =========================
+   FILTERS
+========================= */
 
 #filters {
   height: 62px;
   background: white;
   border-bottom: 1px solid #ddd;
-
   display: flex;
   align-items: center;
-
   gap: 8px;
   padding: 8px 12px;
-
   overflow-x: auto;
-  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
 
-  position: relative;
-  z-index: 1900;
+#filters::-webkit-scrollbar {
+  display: none;
 }
 
 .filter-button {
   flex: 0 0 auto;
-
-  border: 1px solid #bbb;
-  background: white;
+  border: 1px solid #ccc;
+  background: #f7f7f7;
   color: #222;
-
-  border-radius: 20px;
-
-  padding: 10px 16px;
-
+  border-radius: 22px;
+  padding: 10px 17px;
   font-size: 13px;
   font-weight: 700;
-
   cursor: pointer;
-
-  transition: 0.2s;
-}
-
-.filter-button:hover {
-  background: #eee;
+  white-space: nowrap;
+  min-height: 42px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .filter-button.active {
@@ -117,307 +112,352 @@ body {
   border-color: #111;
 }
 
-/* ================================
+/* =========================
    MAIN
-================================ */
+========================= */
 
 #main {
+  width: 100%;
   height: calc(100vh - 134px);
-
   display: flex;
-
   position: relative;
 }
+
+/* =========================
+   SIDEBAR
+========================= */
 
 #sidebar {
   width: 390px;
   min-width: 390px;
-
-  background: white;
-
-  overflow-y: auto;
-
-  border-right: 1px solid #ddd;
-
-  z-index: 1000;
-}
-
-#map {
-  flex: 1;
   height: 100%;
+  background: #f5f5f5;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  border-right: 1px solid #d8d8d8;
 }
 
-/* ================================
-   DAY SECTION
-================================ */
+#itinerary {
+  padding: 12px;
+}
 
 .day-section {
-  border-bottom: 1px solid #ddd;
+  margin-bottom: 18px;
 }
 
 .day-header {
   position: sticky;
   top: 0;
-
-  z-index: 100;
-
+  z-index: 5;
   background: #111;
   color: white;
-
-  padding: 12px 14px;
-
-  font-weight: 700;
-  font-size: 14px;
+  padding: 9px 11px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .4px;
 }
 
-.day-header span {
-  opacity: 0.7;
-
-  font-weight: 500;
-
-  margin-left: 6px;
-}
-
-/* ================================
-   EVENT
-================================ */
-
-.event {
-  padding: 12px 14px;
-
-  border-bottom: 1px solid #eee;
-
-  cursor: pointer;
-
-  transition: background 0.15s;
-}
-
-.event:hover {
-  background: #f6f6f6;
-}
-
-.event.selected {
-  background: #eaeaea;
+.event-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  padding: 11px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
 }
 
 .event-time {
   font-size: 12px;
-
+  color: #777;
   font-weight: 700;
-
-  color: #666;
-
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .event-name {
   font-size: 14px;
-
-  font-weight: 700;
-
+  font-weight: 800;
   color: #111;
-
-  line-height: 1.3;
+  line-height: 1.25;
 }
 
 .event-address {
-  font-size: 11px;
-
-  color: #777;
-
-  margin-top: 4px;
-
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
   line-height: 1.35;
 }
 
 .pending {
-  color: #b26a00;
-
-  font-weight: 700;
+  display: inline-block;
+  margin-left: 5px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 800;
+  background: #fff1cc;
+  color: #7a5500;
+  vertical-align: middle;
 }
 
-.no-location {
+.no-map-label {
+  margin-top: 7px;
+  font-size: 10px;
   color: #999;
-
   font-style: italic;
 }
 
-/* ================================
-   MAP BUTTONS
-================================ */
-
 .map-buttons {
   display: flex;
-
   gap: 6px;
-
   margin-top: 9px;
-
-  flex-wrap: wrap;
 }
 
 .map-button {
-  display: inline-block;
-
-  text-decoration: none;
-
+  flex: 1;
+  border: 0;
   border-radius: 7px;
-
-  padding: 7px 9px;
-
+  padding: 8px 5px;
+  min-height: 34px;
   font-size: 11px;
-
   font-weight: 700;
-
-  border: 1px solid #ccc;
-
-  background: white;
-
-  color: #111;
-}
-
-.map-button:hover {
-  background: #f0f0f0;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .apple-button {
-  border-color: #111;
+  background: #111;
+  color: white;
 }
 
 .google-button {
-  border-color: #4285f4;
+  background: #eee;
+  color: #111;
+  border: 1px solid #ddd;
 }
 
-/* ================================
-   POPUP
-================================ */
+/* =========================
+   MAP
+========================= */
 
-.popup-title {
-  font-size: 15px;
+#map {
+  flex: 1;
+  height: 100%;
+  min-width: 0;
+}
 
+.leaflet-container {
+  background: #e8e8e8;
+}
+
+.leaflet-popup-content {
+  margin: 12px;
+}
+
+.popup {
+  min-width: 220px;
+}
+
+.popup-day {
+  font-size: 10px;
+  color: #777;
   font-weight: 700;
-
-  margin-bottom: 5px;
+  margin-bottom: 3px;
 }
 
 .popup-time {
   font-size: 12px;
+  color: #777;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
 
-  color: #666;
-
+.popup-name {
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.25;
   margin-bottom: 5px;
 }
 
 .popup-address {
-  font-size: 12px;
-
-  color: #555;
-
+  font-size: 11px;
+  color: #666;
   line-height: 1.35;
 }
 
-.popup-pending {
-  color: #b26a00;
-
-  font-weight: 700;
-
-  margin-top: 4px;
+.popup .map-buttons {
+  margin-top: 9px;
 }
 
-/* ================================
+.popup .map-button {
+  padding: 7px 4px;
+}
+
+/* =========================
    LOADING
-================================ */
+========================= */
 
 #loading {
   position: absolute;
-
-  top: 12px;
-  right: 12px;
-
-  z-index: 1500;
-
-  background: rgba(255,255,255,0.95);
-
-  padding: 8px 12px;
-
+  right: 18px;
+  bottom: 18px;
+  z-index: 1000;
+  background: rgba(17,17,17,.9);
+  color: white;
+  padding: 9px 13px;
   border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
 
-  box-shadow:
-    0 2px 8px rgba(0,0,0,0.15);
-
-  font-size: 12px;
-
+#loading.hidden {
   display: none;
 }
 
-/* ================================
-   MOBILE
-================================ */
+/* =========================
+   LEAFLET
+========================= */
 
-@media (max-width: 800px) {
+.leaflet-control-attribution {
+  font-size: 9px !important;
+}
+
+/* =========================
+   MOBILE / IPHONE
+========================= */
+
+@media (max-width: 700px) {
 
   #header {
     height: 64px;
+    padding:
+      env(safe-area-inset-top)
+      14px
+      0
+      14px;
   }
 
-  #header-title {
-    font-size: 17px;
+  .header-title {
+    font-size: 18px;
+  }
+
+  .header-subtitle {
+    font-size: 10px;
   }
 
   #filters {
     height: 58px;
+    padding: 7px 9px;
+  }
+
+  .filter-button {
+    padding: 8px 14px;
+    min-height: 40px;
+    font-size: 12px;
   }
 
   #main {
     height: calc(100vh - 122px);
-
-    flex-direction: column;
+    display: flex;
+    flex-direction: row;
   }
 
   #sidebar {
-    width: 100%;
-    min-width: 100%;
-
-    height: 43%;
-
-    border-right: none;
-
-    border-bottom: 1px solid #ccc;
+    width: 43%;
+    min-width: 43%;
   }
 
   #map {
-    height: 57%;
+    width: 57%;
+    flex: 0 0 57%;
+  }
 
-    min-height: 280px;
+  #itinerary {
+    padding: 7px;
   }
 
   .day-header {
-    position: sticky;
-    top: 0;
+    font-size: 10px;
+    padding: 7px;
+    border-radius: 6px;
   }
 
-  .event {
-    padding: 10px 13px;
+  .event-card {
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+  }
+
+  .event-time {
+    font-size: 9px;
   }
 
   .event-name {
-    font-size: 13px;
+    font-size: 11px;
   }
 
+  .event-address {
+    font-size: 9px;
+  }
+
+  .map-buttons {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .map-button {
+    min-height: 28px;
+    font-size: 9px;
+    padding: 5px 3px;
+  }
+
+  .pending {
+    font-size: 7px;
+    padding: 1px 3px;
+  }
+
+  #loading {
+    right: 8px;
+    bottom: 8px;
+    font-size: 9px;
+    padding: 7px 9px;
+  }
 }
 
-/* ================================
-   LEAFLET
-================================ */
+/* =========================
+   VERY SMALL PHONES
+========================= */
 
-.leaflet-popup-content {
-  margin: 12px;
+@media (max-width: 390px) {
 
-  min-width: 210px;
-}
+  #sidebar {
+    width: 46%;
+    min-width: 46%;
+  }
 
-.leaflet-control-attribution {
-  font-size: 9px;
+  #map {
+    width: 54%;
+    flex: 0 0 54%;
+  }
+
+  .event-name {
+    font-size: 10px;
+  }
+
+  .event-address {
+    font-size: 8px;
+  }
+
+  .event-time {
+    font-size: 8px;
+  }
 }
 
 </style>
@@ -425,32 +465,24 @@ body {
 
 <body>
 
-<!-- ================================
+<!-- =========================
      HEADER
-================================ -->
+========================= -->
 
-<div id="header">
-
+<header id="header">
   <div>
-
-    <div id="header-title">
-      NYC Itinerary 2026
+    <div class="header-title">NYC Itinerary 2026</div>
+    <div class="header-subtitle">
+      Manhattan • Brooklyn • Lower Manhattan • Nov. 21–24, 2026
     </div>
-
-    <div id="header-subtitle">
-      November 21–24, 2026
-    </div>
-
   </div>
+</header>
 
-</div>
-
-
-<!-- ================================
+<!-- =========================
      FILTERS
-================================ -->
+========================= -->
 
-<div id="filters">
+<nav id="filters">
 
   <button
     class="filter-button active"
@@ -487,19 +519,16 @@ body {
     MAR 24
   </button>
 
-</div>
+</nav>
 
-
-<!-- ================================
+<!-- =========================
      MAIN
-================================ -->
+========================= -->
 
 <div id="main">
 
   <aside id="sidebar">
-
     <div id="itinerary"></div>
-
   </aside>
 
   <div id="map"></div>
@@ -510,665 +539,788 @@ body {
 
 </div>
 
+<!-- =========================
+     LEAFLET
+========================= -->
 
 <script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-></script>
-
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
 
 <script>
 
-/* ============================================================
-   ITINERARY
-============================================================ */
+/* =========================================================
+   MASTER ITINERARY
+   82 EVENTS
+========================================================= */
 
 const itinerary = [
 
-/* ============================================================
-   SATURDAY — NOVEMBER 21
-============================================================ */
-
-{
-  day: "sat",
-  time: "6:00 a.m.",
-  name: "B61604 (JetBlue)",
-  address: "SJU ✈ JFK",
-  noMap: true
-},
-
-{
-  day: "sat",
-  time: "9:30 a.m.",
-  name: "JFK to Riu",
-  address: "40.64601798388985, -73.77530133205288",
-  coordinates: [
-    40.64601798388985,
-    -73.77530133205288
-  ]
-},
-
-{
-  day: "sat",
-  time: "10:50 a.m.",
-  name: "Hotel Riu Plaza Manhattan Times Square — Check-in",
-  address: "145 W 47th St, New York, NY 10036, United States"
-},
-
-{
-  day: "sat",
-  time: "11:50 a.m.",
-  name: "M&M'S",
-  address: "1600 Broadway, New York, NY 10019, United States"
-},
-
-{
-  day: "sat",
-  time: "12:20 p.m.",
-  name: "P.S. Kitchen",
-  address: "246 W 48th St, New York, NY 10036, United States",
-  pending: true
-},
-
-{
-  day: "sat",
-  time: "1:20 p.m.",
-  name: "Carnegie Hall",
-  address: "57th Street and Seventh Avenue, New York, NY 10019, United States",
-  pending: true
-},
-
-{
-  day: "sat",
-  time: "1:45 p.m.",
-  name: "Whole Foods Market",
-  address: "10 Columbus Cir, New York, NY 10019, United States"
-},
-
-{
-  day: "sat",
-  time: "2:00 p.m.",
-  name: "Columbus Circle",
-  address: "848 Columbus Cir, New York, NY 10019, United States",
-  pending: true
-},
-
-{
-  day: "sat",
-  time: "2:10 p.m.",
-  name: "The Plaza New York",
-  address: "768 5th Ave, New York, NY 10019, United States"
-},
-
-{
-  day: "sat",
-  time: "2:20 p.m.",
-  name: "Central Park",
-  address: "36 Central Park S, New York, NY 10019, United States"
-},
-
-{
-  day: "sat",
-  time: "2:30 p.m.",
-  name: "Gapstow Bridge",
-  address: "Gapstow Bridge, New York, NY 10019, United States"
-},
-
-{
-  day: "sat",
-  time: "2:45 p.m.",
-  name: "Central Park Carousel",
-  address: "65th St Transverse, New York, NY 10028, United States"
-},
-
-{
-  day: "sat",
-  time: "3:00 p.m.",
-  name: "Bethesda Terrace",
-  address: "40.77408276905158, -73.97095497437824",
-  coordinates: [
-    40.77408276905158,
-    -73.97095497437824
-  ]
-},
-
-{
-  day: "sat",
-  time: "3:10 p.m.",
-  name: "Bethesda Fountain",
-  address: "40.77445136833047, -73.9709043608828",
-  coordinates: [
-    40.77445136833047,
-    -73.9709043608828
-  ],
-  pending: true
-},
-
-{
-  day: "sat",
-  time: "3:30 p.m.",
-  name: "Bow Bridge",
-  address: "Central Park, Bow Bridge, New York, NY 10024, United States"
-},
-
-{
-  day: "sat",
-  time: "3:50 p.m.",
-  name: "Strawberry Fields",
-  address: "W 74th St & 71st Ave, New York, NY 10019, United States"
-},
-
-{
-  day: "sat",
-  time: "3:55 p.m.",
-  name: "Tavern on the Green",
-  address: "67th Street & Central Park West, New York, NY 10023, United States"
-},
-
-{
-  day: "sat",
-  time: "4:00 p.m.",
-  name: "Transfer",
-  address: "Tavern on the Green → Summit One Vanderbilt",
-  noMap: true
-},
-
-{
-  day: "sat",
-  time: "4:30 p.m.",
-  name: "Summit One Vanderbilt",
-  address: "45 E 42nd St, New York, NY 10017, United States"
-},
-
-{
-  day: "sat",
-  time: "7:00 p.m.",
-  name: "House of Spells",
-  address: "234 W 42nd St, New York, NY 10036, United States"
-},
-
-{
-  day: "sat",
-  time: "7:30 p.m.",
-  name: "Lyric Theatre",
-  address: "214 W 43rd St, New York, NY 10036, United States"
-},
-
-
-/* ============================================================
-   SUNDAY — NOVEMBER 22
-============================================================ */
-
-{
-  day: "sun",
-  time: "7:30 a.m.",
-  name: "Central Perk Coffee",
-  address: "20 Times Square, New York, NY 10036, United States"
-},
-
-{
-  day: "sun",
-  time: "8:00 a.m.",
-  name: "The Food Emporium",
-  address: "810 8th Ave, New York, NY 10019, United States",
-  pending: true
-},
-
-{
-  day: "sun",
-  time: "9:00 a.m.",
-  name: "Grand Central Terminal",
-  address: "89 E 42nd St, New York, NY 10017, United States"
-},
-
-{
-  day: "sun",
-  time: "10:00 a.m.",
-  name: "NBA Store",
-  address: "545 5th Ave, New York, NY 10017, United States"
-},
-
-{
-  day: "sun",
-  time: "10:30 a.m.",
-  name: "Bryant Park",
-  address: "40th and 42nd Streets & Fifth and Sixth Avenues, New York, NY 10018, United States"
-},
-
-{
-  day: "sun",
-  time: "10:45 a.m.",
-  name: "Le Botaniste",
-  address: "11 W 42nd St, New York, NY 10036, United States",
-  pending: true
-},
-
-{
-  day: "sun",
-  time: "11:00 a.m.",
-  name: "Empire State Building",
-  address: "20 W 34th St, New York, NY 10118, United States"
-},
-
-{
-  day: "sun",
-  time: "11:00 a.m.",
-  name: "Stavros Niarchos Foundation Library",
-  address: "455 5th Ave, New York, NY 10016, United States"
-},
-
-{
-  day: "sun",
-  time: "11:30 a.m.",
-  name: "Koreatown",
-  address: "5 W 32nd St, New York, NY 10001, United States"
-},
-
-{
-  day: "sun",
-  time: "12:00 p.m.",
-  name: "Hotel Riu Plaza Manhattan Times Square — Check-out",
-  address: "145 W 47th St, New York, NY 10036, United States"
-},
-
-{
-  day: "sun",
-  time: "12:45 p.m.",
-  name: "Moxy NYC Lower East Side — Check-in",
-  address: "145 Bowery, New York, NY 10002, United States"
-},
-
-{
-  day: "sun",
-  time: "2:00 p.m.",
-  name: "Statue Of Liberty — Whitehall Street–South Ferry Station",
-  address: "4 South St, New York, NY 10004, United States"
-},
-
-{
-  day: "sun",
-  time: "3:00 p.m.",
-  name: "Staten Island",
-  address: "1 Bay St, Staten Island, NY 10301, United States"
-},
-
-{
-  day: "sun",
-  time: "3:30 p.m.",
-  name: "The Battery",
-  address: "State St & Battery Pl, New York, NY 10004, United States"
-},
-
-{
-  day: "sun",
-  time: "4:00 p.m.",
-  name: "Ol' Days",
-  address: "73 Warren St, New York, NY 10007, United States",
-  pending: true
-},
-
-{
-  day: "sun",
-  time: "5:00 p.m.",
-  name: "Charging Bull",
-  address: "26 Broadway, New York, NY 10004, United States"
-},
-
-{
-  day: "sun",
-  time: "5:20 p.m.",
-  name: "The Cocoa Exchange",
-  address: "1 Wall St Court, New York, NY 10005, United States",
-  pending: true
-},
-
-{
-  day: "sun",
-  time: "5:40 p.m.",
-  name: "9/11 Memorial & Museum",
-  address: "180 Greenwich St, New York, NY 10007, United States"
-},
-
-{
-  day: "sun",
-  time: "6:00 p.m.",
-  name: "World Trade Center Oculus",
-  address: "50 Church St, New York, NY 10007, United States"
-},
-
-{
-  day: "sun",
-  time: "6:15 p.m.",
-  name: "One World Trade Center",
-  address: "285 Fulton St, New York, NY 10007, United States"
-},
-
-{
-  day: "sun",
-  time: "6:30 p.m.",
-  name: "North Cove Marina",
-  address: "250 Vesey St, New York, NY 10281, United States"
-},
-
-{
-  day: "sun",
-  time: "6:40 p.m.",
-  name: "The Bean",
-  address: "56 Leonard St, New York, NY 10013, United States"
-},
-
-{
-  day: "sun",
-  time: "6:45 p.m.",
-  name: "The Jenga Building",
-  address: "56 Leonard St, New York, NY 10013, United States"
-},
-
-{
-  day: "sun",
-  time: "7:00 p.m.",
-  name: "Ghostbusters Headquarters",
-  address: "14 N Moore St, TriBeCa, New York, NY 10013, United States"
-},
-
-{
-  day: "sun",
-  time: "7:15 p.m.",
-  name: "Soho Diner",
-  address: "320 W Broadway, New York, NY 10013, United States"
-},
-
-{
-  day: "sun",
-  time: "8:00 p.m.",
-  name: "Moxy NYC Lower East Side",
-  address: "145 Bowery, New York, NY 10002, United States"
-},
-
-
-/* ============================================================
-   MONDAY — NOVEMBER 23
-============================================================ */
-
-{
-  day: "mon",
-  time: "6:00 a.m.",
-  name: "Brooklyn Bridge–City Hall / Chambers Street Station",
-  address: "New York, NY, United States"
-},
-
-{
-  day: "mon",
-  time: "6:15 a.m.",
-  name: "Brooklyn Bridge Walk",
-  address: "Brooklyn Bridge → Brooklyn Bridge Park",
-  noMap: true
-},
-
-{
-  day: "mon",
-  time: "7:00 a.m.",
-  name: "Brooklyn Heights Promenade",
-  address: "2 Pierrepont Pl, Brooklyn, NY 11201, United States"
-},
-
-{
-  day: "mon",
-  time: "7:30 a.m.",
-  name: "Squibb Park",
-  address: "68 Columbia Hts, Brooklyn, NY 11201, United States"
-},
-
-{
-  day: "mon",
-  time: "8:00 a.m.",
-  name: "Brooklyn Bridge Park",
-  address: "334 Furman St, Brooklyn, NY 11201, United States"
-},
-
-{
-  day: "mon",
-  time: "8:15 a.m.",
-  name: "Pier 1",
-  address: "60 Furman St, Brooklyn, NY 11201, United States"
-},
-
-{
-  day: "mon",
-  time: "8:30 a.m.",
-  name: "Clinton St. Baking Co. & Restaurant",
-  address: "55 Water St, Brooklyn, NY 11201, United States"
-},
-
-{
-  day: "mon",
-  time: "9:00 a.m.",
-  name: "Dumbo Manhattan Bridge View",
-  address: "39-21 Washington St, Brooklyn, NY 11201, United States"
-},
-
-{
-  day: "mon",
-  time: "9:30 a.m.",
-  name: "Manhattan Bridge Lookout",
-  address: "P246+2Q Brooklyn, New York, USA"
-},
-
-{
-  day: "mon",
-  time: "10:00 a.m.",
-  name: "Vista Point Manhattan & Brooklyn Bridges",
-  address: "55 Water St, Brooklyn, NY 11201, United States"
-},
-
-{
-  day: "mon",
-  time: "10:30 a.m.",
-  name: "Jane's Carousel",
-  address: "Dock St & Water St, Brooklyn, NY 11201, United States"
-},
-
-{
-  day: "mon",
-  time: "11:00 a.m.",
-  name: "Powerhouse Arena",
-  address: "28 Adams St, New York, NY 11201, United States"
-},
-
-{
-  day: "mon",
-  time: "11:30 a.m.",
-  name: "Moxy NYC Lower East Side",
-  address: "145 Bowery, New York, NY 10002, United States"
-},
-
-{
-  day: "mon",
-  time: "1:00 p.m.",
-  name: "Joe's Pizza",
-  address: "7 Carmine St, New York, NY 10014, United States"
-},
-
-{
-  day: "mon",
-  time: "1:15 p.m.",
-  name: "Two Boots",
-  address: "101 7th Ave. S, New York, NY 10014, United States"
-},
-
-{
-  day: "mon",
-  time: "1:30 p.m.",
-  name: "Gay Street",
-  address: "Gay Street, New York, NY 10014, United States"
-},
-
-{
-  day: "mon",
-  time: "1:45 p.m.",
-  name: "Perry St",
-  address: "58 Perry St, New York, NY 10014, United States"
-},
-
-{
-  day: "mon",
-  time: "2:00 p.m.",
-  name: "Urban Vegan Kitchen",
-  address: "265 W 23rd St, New York, NY 10011, United States",
-  pending: true
-},
-
-{
-  day: "mon",
-  time: "2:30 p.m.",
-  name: "Harry Potter Shop",
-  address: "935 Broadway, New York, NY 10010, United States"
-},
-
-{
-  day: "mon",
-  time: "3:00 p.m.",
-  name: "Flatiron Building",
-  address: "175 5th Ave, New York, NY 10010, United States"
-},
-
-{
-  day: "mon",
-  time: "3:30 p.m.",
-  name: "Nintendo New York",
-  address: "10 Rockefeller Plaza, New York, NY 10020, United States"
-},
-
-{
-  day: "mon",
-  time: "3:45 p.m.",
-  name: "NBC Studios",
-  address: "30 Rockefeller Plaza, New York, NY 10112, United States"
-},
-
-{
-  day: "mon",
-  time: "3:50 p.m.",
-  name: "FAO Schwarz",
-  address: "30 Rockefeller Plaza, New York, NY 10111, United States"
-},
-
-{
-  day: "mon",
-  time: "4:00 p.m.",
-  name: "Rockefeller Center",
-  address: "45 Rockefeller Plz, New York, NY 10111, United States"
-},
-
-{
-  day: "mon",
-  time: "4:15 p.m.",
-  name: "Magnolia Bakery",
-  address: "1240 Avenue of the Americas, New York, NY 10020, United States"
-},
-
-{
-  day: "mon",
-  time: "4:30 p.m.",
-  name: "Top of the Rock",
-  address: "30 Rockefeller Plaza, New York, NY 10112, United States"
-},
-
-{
-  day: "mon",
-  time: "5:00 p.m.",
-  name: "Radio City Music Hall",
-  address: "1260 6th Ave, New York, NY 10020, United States"
-},
-
-{
-  day: "mon",
-  time: "5:20 p.m.",
-  name: "The Lego Store",
-  address: "636 5th Ave, New York, NY 10020, United States"
-},
-
-{
-  day: "mon",
-  time: "5:40 p.m.",
-  name: "Ralph's Coffee",
-  address: "630 5th Ave, New York, NY 10111, United States"
-},
-
-{
-  day: "mon",
-  time: "6:30 p.m.",
-  name: "St. Patrick's Cathedral",
-  address: "5th Avenue and 50th/51st Streets, New York, NY 10022, United States"
-},
-
-{
-  day: "mon",
-  time: "7:00 p.m.",
-  name: "Moxy NYC Lower East Side",
-  address: "145 Bowery, New York, NY 10002, United States"
-},
-
-
-/* ============================================================
-   TUESDAY — NOVEMBER 24
-============================================================ */
-
-{
-  day: "tue",
-  time: "8:00 a.m.",
-  name: "Pier 25 @ Hudson River",
-  address: "225 West St, New York, NY 10013, United States"
-},
-
-{
-  day: "tue",
-  time: "8:45 a.m.",
-  name: "Pier 26",
-  address: "215 West St, New York, NY 10013, United States"
-},
-
-{
-  day: "tue",
-  time: "12:00 p.m.",
-  name: "Moxy NYC Lower East Side — Check-out",
-  address: "145 Bowery, New York, NY 10002, United States"
-},
-
-{
-  day: "tue",
-  time: "Hora no suministrada",
-  name: "B61903 (JetBlue)",
-  address: "JFK ✈ SJU",
-  noMap: true
-}
+  /* =======================================================
+     SATURDAY — NOV 21
+  ======================================================= */
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "6:00 a.m.",
+    name: "B61604 (JetBlue) — SJU ✈ JFK",
+    address: "San Juan, Puerto Rico → JFK Airport",
+    noMap: true
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "9:30 a.m.",
+    name: "JFK → Riu",
+    address: "40.64601798388985, -73.77530133205288",
+    coordinates: [
+      40.64601798388985,
+      -73.77530133205288
+    ]
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "10:50 a.m.",
+    name: "Hotel Riu Plaza Manhattan Times Square — Check-in",
+    address: "145 W 47th St, New York, NY 10036"
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "11:50 a.m.",
+    name: "M&M'S",
+    address: "1600 Broadway, New York, NY 10019"
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "12:20 p.m.",
+    name: "P.S. Kitchen",
+    address: "246 W 48th St, New York, NY 10036",
+    pending: true
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "1:20 p.m.",
+    name: "Carnegie Hall",
+    address: "57th Street and 7th Ave, New York, NY 10019",
+    pending: true
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "1:45 p.m.",
+    name: "Whole Foods Market",
+    address: "10 Columbus Cir, New York, NY 10019"
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "2:00 p.m.",
+    name: "Columbus Circle",
+    address: "848 Columbus Cir, New York, NY 10019",
+    pending: true
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "2:10 p.m.",
+    name: "The Plaza New York",
+    address: "768 5th Ave, New York, NY 10019"
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "2:20 p.m.",
+    name: "Central Park",
+    address: "36 Central Park S, New York, NY 10019"
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "2:30 p.m.",
+    name: "Gapstow Bridge",
+    address: "Gapstow Bridge, New York, NY 10019, United States"
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "2:45 p.m.",
+    name: "Central Park Carousel",
+    address: "40.770114054272064, -73.97527636088296",
+    coordinates: [
+      40.770114054272064,
+      -73.97527636088296
+    ]
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "3:00 p.m.",
+    name: "Bethesda Terrace",
+    address: "40.77408276905158, -73.97095497437824",
+    coordinates: [
+      40.77408276905158,
+      -73.97095497437824
+    ]
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "3:10 p.m.",
+    name: "Bethesda Fountain",
+    address: "40.77445136833047, -73.9709043608828",
+    coordinates: [
+      40.77445136833047,
+      -73.9709043608828
+    ],
+    pending: true
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "3:30 p.m.",
+    name: "Bow Bridge",
+    address: "40.775949362499645, -73.97178913204787",
+    coordinates: [
+      40.775949362499645,
+      -73.97178913204787
+    ]
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "3:50 p.m.",
+    name: "Strawberry Fields",
+    address: "40.775825611924816, -73.97521961378312",
+    coordinates: [
+      40.775825611924816,
+      -73.97521961378312
+    ]
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "3:55 p.m.",
+    name: "Tavern on the Green",
+    address: "67th Street & Central Park West, New York, NY 10023"
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "4:00 p.m.",
+    name: "Transfer — Tavern on the Green → Summit One Vanderbilt",
+    address: "Transfer",
+    noMap: true
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "4:30 p.m.",
+    name: "Summit One Vanderbilt",
+    address: "45 E 42nd St, New York, NY 10017"
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "7:00 p.m.",
+    name: "House of Spells",
+    address: "234 W 42nd St, New York, NY 10036"
+  },
+
+  {
+    day: "sat",
+    dayName: "SÁBADO 21 DE NOVIEMBRE",
+    time: "7:30 p.m.",
+    name: "Lyric Theatre",
+    address: "214 W 43rd St, New York, NY 10036"
+  },
+
+
+  /* =======================================================
+     SUNDAY — NOV 22
+  ======================================================= */
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "7:30 a.m.",
+    name: "Central Perk Coffee",
+    address: "20 Times Square, New York, NY 10036"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "8:00 a.m.",
+    name: "The Food Emporium",
+    address: "810 8th Ave, New York, NY 10019",
+    pending: true
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "9:00 a.m.",
+    name: "Grand Central Terminal",
+    address: "89 E 42nd St, New York, NY 10017"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "10:00 a.m.",
+    name: "NBA Store",
+    address: "545 5th Ave, New York, NY 10017"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "10:30 a.m.",
+    name: "Bryant Park",
+    address: "40.7537154730288, -73.98292071670917",
+    coordinates: [
+      40.7537154730288,
+      -73.98292071670917
+    ]
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "10:45 a.m.",
+    name: "Le Botaniste",
+    address: "11 W 42nd St, New York, NY 10036",
+    pending: true
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "11:00 a.m.",
+    name: "Empire State Building",
+    address: "20 W 34th St, New York, NY 10118"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "11:00 a.m.",
+    name: "Stavros Niarchos Foundation Library",
+    address: "455 5th Ave, New York, NY 10016"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "11:30 a.m.",
+    name: "Koreatown",
+    address: "5 W 32nd St, New York, NY 10001"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "12:00 p.m.",
+    name: "Hotel Riu Plaza Manhattan Times Square — Check-out",
+    address: "145 W 47th St, New York, NY 10036"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "12:45 p.m.",
+    name: "Moxy NYC Lower East Side — Check-in",
+    address: "145 Bowery, New York, NY 10002"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "2:00 p.m.",
+    name: "Statue Of Liberty — Whitehall Street–South Ferry Station",
+    address: "4 South St, New York, NY 10004"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "3:00 p.m.",
+    name: "Staten Island",
+    address: "1 Bay St, Staten Island, NY 10301"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "3:30 p.m.",
+    name: "The Battery",
+    address: "State St & Battery Pl, New York, NY 10004"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "4:00 p.m.",
+    name: "Ol' Days",
+    address: "73 Warren St, New York, NY 10007",
+    pending: true
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "5:00 p.m.",
+    name: "Charging Bull",
+    address: "26 Broadway, New York, NY 10004"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "5:20 p.m.",
+    name: "The Cocoa Exchange",
+    address: "82 Beaver St, New York, NY 10005",
+    pending: true
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "5:40 p.m.",
+    name: "9/11 Memorial & Museum",
+    address: "180 Greenwich St, New York, NY 10007"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "6:00 p.m.",
+    name: "World Trade Center Oculus",
+    address: "50 Church St, New York, NY 10007"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "6:15 p.m.",
+    name: "One World Trade Center",
+    address: "285 Fulton St, New York, NY 10007"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "6:30 p.m.",
+    name: "North Cove Marina",
+    address: "250 Vesey St, New York, NY 10281"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "6:40 p.m.",
+    name: "The Bean",
+    address: "56 Leonard St, New York, NY 10013"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "6:45 p.m.",
+    name: "The Jenga Building",
+    address: "56 Leonard St, New York, NY 10013"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "7:00 p.m.",
+    name: "Ghostbusters Headquarters",
+    address: "14 N Moore St, TriBeCa, New York, NY 10013"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "7:15 p.m.",
+    name: "Soho Diner",
+    address: "320 W Broadway, New York, NY 10013"
+  },
+
+  {
+    day: "sun",
+    dayName: "DOMINGO 22 DE NOVIEMBRE",
+    time: "8:00 p.m.",
+    name: "Moxy NYC Lower East Side",
+    address: "145 Bowery, New York, NY 10002"
+  },
+
+
+  /* =======================================================
+     MONDAY — NOV 23
+  ======================================================= */
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "6:00 a.m.",
+    name: "Brooklyn Bridge–City Hall / Chambers Street Station",
+    address: "New York, NY"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "6:15 a.m.",
+    name: "Brooklyn Bridge Walk — Brooklyn Bridge → Brooklyn Bridge Park",
+    address: "Brooklyn Bridge → Brooklyn Bridge Park",
+    noMap: true
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "7:00 a.m.",
+    name: "Brooklyn Heights Promenade",
+    address: "2 Pierrepont Pl, Brooklyn, NY 11201"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "7:30 a.m.",
+    name: "Squibb Park",
+    address: "68 Columbia Hts, Brooklyn, NY 11201"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "8:00 a.m.",
+    name: "Brooklyn Bridge Park",
+    address: "40.70227569782874, -73.99586335581891",
+    coordinates: [
+      40.70227569782874,
+      -73.99586335581891
+    ]
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "8:15 a.m.",
+    name: "Pier 1",
+    address: "60 Furman St, Brooklyn, NY 11201"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "8:30 a.m.",
+    name: "Clinton St. Baking Co. & Restaurant",
+    address: "55 Water St, Brooklyn, NY 11201"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "9:00 a.m.",
+    name: "Dumbo Manhattan Bridge View",
+    address: "39-21 Washington St, Brooklyn, NY 11201"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "9:30 a.m.",
+    name: "Manhattan Bridge Lookout",
+    address: "40.70505203348619, -73.98808946742287",
+    coordinates: [
+      40.70505203348619,
+      -73.98808946742287
+    ]
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "10:00 a.m.",
+    name: "Vista Point Manhattan & Brooklyn Bridges",
+    address: "55 Water St, Brooklyn, NY 11201"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "10:30 a.m.",
+    name: "Jane's Carousel",
+    address: "1 Old Dock St, Brooklyn, NY 11201"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "11:00 a.m.",
+    name: "Powerhouse Arena",
+    address: "28 Adams St, New York, NY 11201"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "11:30 a.m.",
+    name: "Moxy NYC Lower East Side",
+    address: "145 Bowery, New York, NY 10002"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "1:00 p.m.",
+    name: "Joe's Pizza",
+    address: "7 Carmine St, New York, NY 10014"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "1:15 p.m.",
+    name: "Two Boots",
+    address: "101 7th Ave S, New York, NY 10014"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "1:30 p.m.",
+    name: "Gay Street",
+    address: "Gay Street, New York, NY 10014"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "1:45 p.m.",
+    name: "Perry St",
+    address: "58 Perry St, New York, NY 10014"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "2:00 p.m.",
+    name: "Urban Vegan Kitchen",
+    address: "265 W 23rd St, New York, NY 10011",
+    pending: true
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "2:30 p.m.",
+    name: "Harry Potter Shop",
+    address: "935 Broadway, New York, NY 10010"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "3:00 p.m.",
+    name: "Flatiron Building",
+    address: "175 5th Ave, New York, NY 10010"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "3:30 p.m.",
+    name: "Nintendo New York",
+    address: "10 Rockefeller Plaza, New York, NY 10020"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "3:45 p.m.",
+    name: "NBC Studios",
+    address: "30 Rockefeller Plaza, New York, NY 10112"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "3:50 p.m.",
+    name: "FAO Schwarz",
+    address: "30 Rockefeller Plaza, New York, NY 10111"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "4:00 p.m.",
+    name: "Rockefeller Center",
+    address: "45 Rockefeller Plz, New York, NY 10111"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "4:15 p.m.",
+    name: "Magnolia Bakery",
+    address: "1240 Avenue of the Americas, New York, NY 10020"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "4:30 p.m.",
+    name: "Top of the Rock",
+    address: "30 Rockefeller Plaza, New York, NY 10112"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "5:00 p.m.",
+    name: "Radio City Music Hall",
+    address: "1260 6th Ave, New York, NY 10020"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "5:20 p.m.",
+    name: "The Lego Store",
+    address: "636 5th Ave, New York, NY 10020"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "5:40 p.m.",
+    name: "Ralph's Coffee",
+    address: "630 5th Ave, New York, NY 10111"
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "6:30 p.m.",
+    name: "St. Patrick's Cathedral",
+    address: "40.75877420594572, -73.97621676088337",
+    coordinates: [
+      40.75877420594572,
+      -73.97621676088337
+    ]
+  },
+
+  {
+    day: "mon",
+    dayName: "LUNES 23 DE NOVIEMBRE",
+    time: "7:00 p.m.",
+    name: "Moxy NYC Lower East Side",
+    address: "145 Bowery, New York, NY 10002"
+  },
+
+
+  /* =======================================================
+     TUESDAY — NOV 24
+  ======================================================= */
+
+  {
+    day: "tue",
+    dayName: "MARTES 24 DE NOVIEMBRE",
+    time: "8:00 a.m.",
+    name: "Pier 25 @ Hudson River",
+    address: "225 West St, New York, NY 10013"
+  },
+
+  {
+    day: "tue",
+    dayName: "MARTES 24 DE NOVIEMBRE",
+    time: "8:45 a.m.",
+    name: "Pier 26",
+    address: "215 West St, New York, NY 10013"
+  },
+
+  {
+    day: "tue",
+    dayName: "MARTES 24 DE NOVIEMBRE",
+    time: "12:00 p.m.",
+    name: "Moxy NYC Lower East Side — Check-out",
+    address: "145 Bowery, New York, NY 10002"
+  },
+
+  {
+    day: "tue",
+    dayName: "MARTES 24 DE NOVIEMBRE",
+    time: "—",
+    name: "B61903 (JetBlue) — JFK ✈ SJU",
+    address: "JFK Airport → San Juan, Puerto Rico",
+    noMap: true
+  }
 
 ];
 
 
-/* ============================================================
-   MAP
-============================================================ */
+/* =========================================================
+   MAP INITIALIZATION
+========================================================= */
 
 const map = L.map("map", {
-  zoomControl: true
+  zoomControl: true,
+  preferCanvas: false,
+  tapHold: true,
+  touchZoom: true,
+  dragging: true,
+  scrollWheelZoom: true
 }).setView(
   [40.7580, -73.9855],
   13
 );
+
+
+/* =========================================================
+   OPENSTREETMAP
+========================================================= */
 
 L.tileLayer(
   "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
     maxZoom: 19,
     attribution:
-      '&copy; OpenStreetMap contributors'
+      '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
   }
 ).addTo(map);
 
 
-/* ============================================================
-   GLOBAL VARIABLES
-============================================================ */
+/* =========================================================
+   DOM REFERENCES
+========================================================= */
 
 const itineraryContainer =
   document.getElementById("itinerary");
@@ -1176,38 +1328,41 @@ const itineraryContainer =
 const loading =
   document.getElementById("loading");
 
+
+/* =========================================================
+   STATE
+========================================================= */
+
 let markers = [];
 
 let currentDay = "all";
 
 
-/* ============================================================
+/* =========================================================
    HTML ESCAPE
-============================================================ */
+========================================================= */
 
-function escapeHtml(text) {
+function escapeHtml(value) {
 
-  if (
-    text === undefined ||
-    text === null
-  ) {
-    return "";
-  }
-
-  return String(text)
+  return String(value)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+
 }
 
 
-/* ============================================================
+/* =========================================================
    COORDINATE DETECTION
-============================================================ */
+========================================================= */
 
 function isCoordinateString(address) {
+
+  if (!address) {
+    return false;
+  }
 
   return /^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/
     .test(address.trim());
@@ -1215,22 +1370,36 @@ function isCoordinateString(address) {
 }
 
 
-function getCoordinates(address) {
+/* =========================================================
+   COORDINATES FROM STRING
+========================================================= */
+
+function coordinatesFromString(address) {
 
   const parts =
-    address.split(",");
+    address
+      .split(",")
+      .map(value => Number(value.trim()));
 
-  return [
-    parseFloat(parts[0].trim()),
-    parseFloat(parts[1].trim())
-  ];
+  if (
+    parts.length === 2 &&
+    Number.isFinite(parts[0]) &&
+    Number.isFinite(parts[1])
+  ) {
+    return [
+      parts[0],
+      parts[1]
+    ];
+  }
+
+  return null;
 
 }
 
 
-/* ============================================================
+/* =========================================================
    APPLE MAPS
-============================================================ */
+========================================================= */
 
 function appleMapsUrl(address) {
 
@@ -1242,9 +1411,9 @@ function appleMapsUrl(address) {
 }
 
 
-/* ============================================================
+/* =========================================================
    GOOGLE MAPS
-============================================================ */
+========================================================= */
 
 function googleMapsUrl(address) {
 
@@ -1256,21 +1425,13 @@ function googleMapsUrl(address) {
 }
 
 
-/* ============================================================
+/* =========================================================
    MAP BUTTONS
-============================================================ */
+========================================================= */
 
 function mapButtons(address) {
 
-  if (
-    !address ||
-    address.trim() === ""
-  ) {
-    return "";
-  }
-
   return `
-
     <div class="map-buttons">
 
       <a
@@ -1278,7 +1439,6 @@ function mapButtons(address) {
         href="${appleMapsUrl(address)}"
         target="_blank"
         rel="noopener"
-        onclick="event.stopPropagation();"
       >
          Apple Maps
       </a>
@@ -1288,219 +1448,116 @@ function mapButtons(address) {
         href="${googleMapsUrl(address)}"
         target="_blank"
         rel="noopener"
-        onclick="event.stopPropagation();"
       >
         Google Maps
       </a>
 
     </div>
-
   `;
 
 }
 
 
-/* ============================================================
+/* =========================================================
    SIDEBAR
-============================================================ */
+========================================================= */
 
 function renderSidebar() {
 
   itineraryContainer.innerHTML = "";
 
-  const days = [
+  const visibleEvents =
+    itinerary.filter(item =>
+      currentDay === "all" ||
+      item.day === currentDay
+    );
 
-    {
-      id: "sat",
-      title: "Sábado, 21 de noviembre"
-    },
+  const groups = {};
 
-    {
-      id: "sun",
-      title: "Domingo, 22 de noviembre"
-    },
+  visibleEvents.forEach(item => {
 
-    {
-      id: "mon",
-      title: "Lunes, 23 de noviembre"
-    },
-
-    {
-      id: "tue",
-      title: "Martes, 24 de noviembre"
+    if (!groups[item.day]) {
+      groups[item.day] = {
+        dayName: item.dayName,
+        events: []
+      };
     }
 
-  ];
+    groups[item.day].events.push(item);
+
+  });
 
 
-  days.forEach(day => {
-
-    if (
-      currentDay !== "all" &&
-      currentDay !== day.id
-    ) {
-      return;
-    }
-
-
-    const events =
-      itinerary.filter(
-        item => item.day === day.id
-      );
-
-
-    if (!events.length) {
-      return;
-    }
-
+  Object.keys(groups).forEach(day => {
 
     const section =
-      document.createElement("div");
+      document.createElement("section");
 
-    section.className =
-      "day-section";
+    section.className = "day-section";
 
 
     const header =
       document.createElement("div");
 
-    header.className =
-      "day-header";
+    header.className = "day-header";
 
-    header.innerHTML =
-      escapeHtml(day.title) +
-      "<span>2026</span>";
+    header.textContent =
+      groups[day].dayName;
+
 
     section.appendChild(header);
 
 
-    events.forEach(item => {
+    groups[day].events.forEach(item => {
 
-      const event =
+      const card =
         document.createElement("div");
 
-      event.className =
-        "event";
+      card.className = "event-card";
 
 
-      const globalIndex =
-        itinerary.indexOf(item);
-
-      event.dataset.index =
-        globalIndex;
-
-
-      const pendingHtml =
+      const pending =
         item.pending
-          ? ' <span class="pending">(Pending)</span>'
+          ? '<span class="pending">PENDING</span>'
           : "";
 
 
-      let addressHtml = "";
-
-
-      if (item.noMap) {
-
-        addressHtml = `
-
-          <div class="event-address no-location">
-
-            ${escapeHtml(item.address)}
-
-          </div>
-
-        `;
-
-      } else {
-
-        addressHtml = `
-
-          <div class="event-address">
-
-            ${escapeHtml(item.address)}
-
-          </div>
-
-          ${mapButtons(item.address)}
-
-        `;
-
-      }
-
-
-      event.innerHTML = `
+      let content = `
 
         <div class="event-time">
-
           ${escapeHtml(item.time)}
-
         </div>
 
         <div class="event-name">
-
           ${escapeHtml(item.name)}
-
-          ${pendingHtml}
-
+          ${pending}
         </div>
 
-        ${addressHtml}
+        <div class="event-address">
+          ${escapeHtml(item.address)}
+        </div>
 
       `;
 
 
-      event.addEventListener(
-        "click",
-        function(e) {
+      if (item.noMap) {
 
-          if (
-            e.target.closest("a")
-          ) {
-            return;
-          }
+        content += `
+          <div class="no-map-label">
+            Traslado / vuelo — sin punto en el mapa
+          </div>
+        `;
 
+      } else {
 
-          const markerRecord =
-            markers.find(
-              m => m.index === globalIndex
-            );
+        content += mapButtons(item.address);
+
+      }
 
 
-          if (!markerRecord) {
-            return;
-          }
+      card.innerHTML = content;
 
-
-          map.setView(
-            markerRecord.marker.getLatLng(),
-            17,
-            {
-              animate: true
-            }
-          );
-
-
-          markerRecord.marker.openPopup();
-
-
-          document
-            .querySelectorAll(".event")
-            .forEach(el =>
-              el.classList.remove(
-                "selected"
-              )
-            );
-
-
-          event.classList.add(
-            "selected"
-          );
-
-        }
-      );
-
-
-      section.appendChild(event);
+      section.appendChild(card);
 
     });
 
@@ -1512,9 +1569,9 @@ function renderSidebar() {
 }
 
 
-/* ============================================================
-   CREATE MARKER
-============================================================ */
+/* =========================================================
+   MARKER
+========================================================= */
 
 function createMarker(
   item,
@@ -1523,91 +1580,80 @@ function createMarker(
   lon
 ) {
 
-  const popupPending =
+  const marker =
+    L.marker([
+      lat,
+      lon
+    ]);
+
+
+  const pending =
     item.pending
-      ? `
-        <div class="popup-pending">
-          Pending
-        </div>
-      `
+      ? '<span class="pending">PENDING</span>'
       : "";
 
 
-  const popup = `
+  const popupHtml = `
 
-    <div class="popup-title">
+    <div class="popup">
 
-      ${escapeHtml(item.name)}
+      <div class="popup-day">
+        ${escapeHtml(item.dayName)}
+      </div>
+
+      <div class="popup-time">
+        ${escapeHtml(item.time)}
+      </div>
+
+      <div class="popup-name">
+        ${escapeHtml(item.name)}
+        ${pending}
+      </div>
+
+      <div class="popup-address">
+        ${escapeHtml(item.address)}
+      </div>
+
+      ${mapButtons(item.address)}
 
     </div>
-
-    <div class="popup-time">
-
-      ${escapeHtml(item.time)}
-
-    </div>
-
-    <div class="popup-address">
-
-      ${escapeHtml(item.address)}
-
-    </div>
-
-    ${popupPending}
-
-    ${mapButtons(item.address)}
 
   `;
 
 
-  const marker =
-    L.marker([lat, lon])
-      .addTo(map)
-      .bindPopup(popup);
+  marker.bindPopup(
+    popupHtml,
+    {
+      maxWidth: 300,
+      closeButton: true,
+      autoPan: true
+    }
+  );
 
 
-  markers.push({
+  marker.__eventIndex = index;
 
-    index: index,
-
-    day: item.day,
-
-    marker: marker
-
-  });
+  markers.push(marker);
 
 }
 
 
-/* ============================================================
-   GEOCODING
-============================================================ */
+/* =========================================================
+   NOMINATIM GEOCODING
+========================================================= */
 
 async function geocodeAddress(address) {
 
-  if (!address) {
-    return null;
-  }
-
-
-  if (
-    isCoordinateString(address)
-  ) {
-
-    return getCoordinates(address);
-
-  }
+  const url =
+    "https://nominatim.openstreetmap.org/search?" +
+    new URLSearchParams({
+      q: address,
+      format: "json",
+      limit: "1"
+    });
 
 
   try {
-
-    const url =
-      "https://nominatim.openstreetmap.org/search" +
-      "?format=jsonv2" +
-      "&limit=1" +
-      "&q=" +
-      encodeURIComponent(address);
-
 
     const response =
       await fetch(
@@ -1631,57 +1677,54 @@ async function geocodeAddress(address) {
 
 
     if (
-      !data ||
-      !data.length
+      Array.isArray(data) &&
+      data.length > 0
     ) {
-      return null;
+
+      const lat =
+        Number(data[0].lat);
+
+      const lon =
+        Number(data[0].lon);
+
+
+      if (
+        Number.isFinite(lat) &&
+        Number.isFinite(lon)
+      ) {
+
+        return [
+          lat,
+          lon
+        ];
+
+      }
+
     }
-
-
-    return [
-
-      parseFloat(
-        data[0].lat
-      ),
-
-      parseFloat(
-        data[0].lon
-      )
-
-    ];
 
   } catch (error) {
 
-    console.error(
+    console.warn(
       "Geocoding error:",
       address,
       error
     );
 
-    return null;
-
   }
+
+
+  return null;
 
 }
 
 
-/* ============================================================
-   LOAD ALL MARKERS
-============================================================ */
+/* =========================================================
+   LOAD MARKERS
+========================================================= */
 
 async function loadMarkers() {
 
-  loading.style.display =
-    "block";
-
-
-  const geocodable =
-    itinerary.filter(
-      item => !item.noMap
-    );
-
-
-  let completed = 0;
+  loading.classList.remove("hidden");
 
 
   for (
@@ -1699,62 +1742,57 @@ async function loadMarkers() {
     }
 
 
-    let coordinates = null;
+    let coordinates =
+      null;
 
 
-    /*
-      Use exact coordinates whenever
-      they were explicitly provided.
-    */
+    /* -----------------------------------------
+       1. EXPLICIT COORDINATES
+    ----------------------------------------- */
 
-    if (item.coordinates) {
+    if (
+      Array.isArray(item.coordinates) &&
+      item.coordinates.length === 2
+    ) {
 
       coordinates =
         item.coordinates;
 
-    } else {
+    }
+
+
+    /* -----------------------------------------
+       2. COORDINATES INSIDE ADDRESS
+    ----------------------------------------- */
+
+    else if (
+      isCoordinateString(item.address)
+    ) {
 
       coordinates =
-        await geocodeAddress(
+        coordinatesFromString(
           item.address
         );
 
     }
 
 
-    if (coordinates) {
+    /* -----------------------------------------
+       3. NOMINATIM
+    ----------------------------------------- */
 
-      createMarker(
+    else {
 
-        item,
-
-        i,
-
-        coordinates[0],
-
-        coordinates[1]
-
-      );
-
-    }
+      coordinates =
+        await geocodeAddress(
+          item.address
+        );
 
 
-    completed++;
-
-
-    loading.innerHTML =
-      "Cargando ubicaciones " +
-      completed +
-      " / " +
-      geocodable.length;
-
-
-    /*
-      Delay between Nominatim
-      requests.
-    */
-
-    if (!item.coordinates) {
+      /*
+       Nominatim usage policy:
+       keep requests separated.
+      */
 
       await new Promise(
         resolve =>
@@ -1766,11 +1804,22 @@ async function loadMarkers() {
 
     }
 
+
+    if (coordinates) {
+
+      createMarker(
+        item,
+        i,
+        coordinates[0],
+        coordinates[1]
+      );
+
+    }
+
   }
 
 
-  loading.style.display =
-    "none";
+  loading.classList.add("hidden");
 
 
   applyFilter();
@@ -1778,50 +1827,53 @@ async function loadMarkers() {
 }
 
 
-/* ============================================================
+/* =========================================================
    APPLY FILTER
-============================================================ */
+========================================================= */
 
 function applyFilter() {
 
   const visibleMarkers = [];
 
 
-  markers.forEach(
-    record => {
+  markers.forEach(marker => {
 
-      const shouldShow =
-        currentDay === "all" ||
-        record.day === currentDay;
-
-
-      if (shouldShow) {
-
-        record.marker.addTo(map);
+    const item =
+      itinerary[
+        marker.__eventIndex
+      ];
 
 
-        visibleMarkers.push(
-          record.marker.getLatLng()
-        );
+    const visible =
+      currentDay === "all" ||
+      item.day === currentDay;
 
-      } else {
 
-        map.removeLayer(
-          record.marker
-        );
+    if (visible) {
 
+      if (!map.hasLayer(marker)) {
+        marker.addTo(map);
+      }
+
+      visibleMarkers.push(marker);
+
+    } else {
+
+      if (map.hasLayer(marker)) {
+        map.removeLayer(marker);
       }
 
     }
-  );
+
+  });
 
 
   renderSidebar();
 
 
   /*
-    Automatically fit the
-    selected day's locations.
+   Automatically fit the map to
+   all visible points.
   */
 
   if (
@@ -1830,15 +1882,23 @@ function applyFilter() {
 
     const bounds =
       L.latLngBounds(
-        visibleMarkers
+        visibleMarkers.map(
+          marker =>
+            marker.getLatLng()
+        )
       );
 
 
     map.fitBounds(
       bounds,
       {
-        padding: [35, 35],
-        maxZoom: 15
+        paddingTopLeft: [20, 20],
+        paddingBottomRight: [20, 20],
+        maxZoom:
+          currentDay === "all"
+            ? 13
+            : 15,
+        animate: true
       }
     );
 
@@ -1847,14 +1907,12 @@ function applyFilter() {
 }
 
 
-/* ============================================================
+/* =========================================================
    FILTER BUTTONS
-============================================================ */
+========================================================= */
 
 document
-  .querySelectorAll(
-    ".filter-button"
-  )
+  .querySelectorAll(".filter-button")
   .forEach(button => {
 
     button.addEventListener(
@@ -1862,19 +1920,13 @@ document
       function() {
 
         document
-          .querySelectorAll(
-            ".filter-button"
-          )
+          .querySelectorAll(".filter-button")
           .forEach(btn =>
-            btn.classList.remove(
-              "active"
-            )
+            btn.classList.remove("active")
           );
 
 
-        this.classList.add(
-          "active"
-        );
+        this.classList.add("active");
 
 
         currentDay =
@@ -1889,13 +1941,53 @@ document
   });
 
 
-/* ============================================================
-   INITIALIZE
-============================================================ */
+/* =========================================================
+   INITIAL SIDEBAR
+========================================================= */
 
 renderSidebar();
 
+
+/* =========================================================
+   INITIAL MARKERS
+========================================================= */
+
 loadMarkers();
+
+
+/* =========================================================
+   MAP RESIZE
+   Important for Safari / iPhone
+========================================================= */
+
+window.addEventListener(
+  "resize",
+  function() {
+
+    setTimeout(
+      () => map.invalidateSize(),
+      150
+    );
+
+  }
+);
+
+
+/* =========================================================
+   SAFARI ORIENTATION CHANGE
+========================================================= */
+
+window.addEventListener(
+  "orientationchange",
+  function() {
+
+    setTimeout(
+      () => map.invalidateSize(),
+      400
+    );
+
+  }
+);
 
 </script>
 
